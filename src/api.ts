@@ -206,6 +206,32 @@ export interface LemonRestModelsProxyCampaignAttribute {
   attribute_description?: string;
 }
 
+export interface LemonRestModelsQueryFiltersCodelistFilter {
+  Name?: string;
+  CodeListFilter:
+    | "ABC_GROUPS"
+    | "AREAS"
+    | "BUSINESS_ACTIVITY_AREACODES"
+    | "BUSINESSCODES"
+    | "CHAINS"
+    | "COMPANY_GROUPS"
+    | "CUSTOMER_CLASSES"
+    | "CUSTOMER_SEGMENT_CODES"
+    | "EMPLOYER_QUANTITY_CODES"
+    | "MAINBUSINESS_CODES"
+    | "TURNOVER_CODES"
+    | "DELIVERY_METHODS"
+    | "DELIVERYPACKAGE_TYPES"
+    | "PRODUCT_COLORS"
+    | "DRIVERS"
+    | "COUNTRIES"
+    | "DELIVERY_TERMS"
+    | "INVOICE_METHODS"
+    | "EXPENSE_GROUPS"
+    | "ACCOUNT_TYPES";
+  Object_ids?: number[];
+}
+
 /** Contact filter used to filter contacts when listing them */
 export interface LemonRestModelsQueryFiltersContactFilter {
   /** Contact name [CONTAINS] */
@@ -277,6 +303,15 @@ export interface LemonRestModelsQueryFiltersCustomerFilter {
   customer_number?: number[];
   /** @format int32 */
   group?: number;
+  /** @format date-time */
+  created_before?: string;
+  /** @format date-time */
+  created_after?: string;
+  /** @format date-time */
+  updated_before?: string;
+  /** @format date-time */
+  updated_after?: string;
+  attribute_ids?: number[];
   object_ids?: number[];
   /**
    * Page number. If not provided, using default value of 1
@@ -334,9 +369,16 @@ export interface LemonRestModelsProxyCustomer {
   deny_credit?: boolean;
   /** @format int32 */
   reseller?: number;
+  default_reference?: string;
+  prevent_delivery?: boolean;
+  partial_delivery_disabled?: boolean;
+  /** @format int32 */
+  invoiceperiod?: number;
+  invoicedates?: string;
   agreements?: LemonRestModelsProxyCustomerAgreement[];
   accounts?: LemonRestModelsProxyCustomerAccount[];
   circulations?: LemonRestModelsProxyCustomerCirculation[];
+  dimension?: LemonRestModelsProxyCustomerDimension;
   /** @format int32 */
   id?: number;
   /** @format int32 */
@@ -359,6 +401,7 @@ export interface LemonRestModelsProxyCustomer {
   invoicing_name?: string;
   invoicing_name2?: string;
   invoicing_address?: string;
+  invoicing_postaladdress?: string;
   invoicing_postal_code?: string;
   invoicing_city?: string;
   /** @format int32 */
@@ -488,6 +531,44 @@ export interface LemonRestModelsProxyCustomerCirculation {
    * @max 1
    */
   circulation_type?: number;
+}
+
+export interface LemonRestModelsProxyCustomerDimension {
+  /** @format int32 */
+  Area_code?: number;
+  /** @format int32 */
+  Chain_code?: number;
+  /** @format int32 */
+  Turnover_code?: number;
+  /** @format int32 */
+  Employer_quantity_code?: number;
+  /** @format int32 */
+  Customer_segment_code?: number;
+  /** @format int32 */
+  Customer_abc?: number;
+  /** @format int32 */
+  Mainbusiness_code?: number;
+  Branch_classification1?: string;
+  Branch_classification2?: string;
+  Branch_classification3?: string;
+  /** @format int32 */
+  Customergroup_id?: number;
+  /** @format int32 */
+  Business_activity_areacode?: number;
+  /** @format int32 */
+  Customer_class_id?: number;
+  Customer_quality_system_bit?: boolean;
+  Customer_reference_bit?: boolean;
+  /** @format date-time */
+  Customer_dimension_started?: string;
+  /** @format int32 */
+  Customer_dimension_turnover?: number;
+  Customer_costcenter?: string;
+  Customer_lta?: string;
+  Customer_quality_system_name?: string;
+  Customer_reference_note?: string;
+  /** @format int32 */
+  Transaction_type?: number;
 }
 
 export interface LemonRestModelsProxyCustomerAgreementProduct {
@@ -688,6 +769,22 @@ export interface LemonRestModelsProxyJobImage {
   printname?: string;
 }
 
+/** Ohjelman kuva proxy */
+export interface LemonRestModelsProxyProgramImage {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  object_id?: number;
+  /** @format int32 */
+  data_id?: number;
+  description?: string;
+  prefix?: string;
+  /** @format byte */
+  bytes?: string;
+  /** @format int32 */
+  type?: number;
+}
+
 export interface LemonRestModelsQueryFiltersSalesInvoiceFilter {
   numbers?: number[];
   /** @format int32 */
@@ -780,6 +877,8 @@ export interface LemonRestModelsProxyInvoice {
   /** @format int32 */
   person_seller_number?: number;
   customer_reference?: string;
+  /** @format date-time */
+  modified_date?: string;
   rows?: LemonRestModelsProxyInvoiceRow[];
   payments?: LemonRestModelsProxyInvoicePayment[];
   links?: LemonRestModelsProxyLink[];
@@ -820,6 +919,7 @@ export interface LemonRestModelsProxyInvoice {
   /** @format double */
   currency_rate?: number;
   state?: string;
+  online_url?: string;
 }
 
 export interface LemonRestModelsProxyInvoiceRow {
@@ -838,6 +938,8 @@ export interface LemonRestModelsProxyInvoiceRow {
   stock_id?: number;
   /** @format int32 */
   person_seller_id?: number;
+  /** @format int32 */
+  person_number?: number;
   sizes?: LemonRestModelsProxySizeAmount[];
   /** @format int32 */
   id?: number;
@@ -973,6 +1075,23 @@ export interface LemonRestModelsProxySizeAmount {
   sort_order?: number;
 }
 
+export interface LemonRestModelsQueryFiltersPageFilter {
+  /**
+   * If not defined, using default value of 1
+   * @format int32
+   */
+  page?: number;
+  /**
+   * If not defined, using default value of 10
+   * @format int32
+   */
+  page_size?: number;
+}
+
+export interface LemonRestModelsQueryFiltersNumberSeriesFilter {
+  NumberSeries: "invoice";
+}
+
 export interface LemonRestModelsQueryFiltersOfferFilter {
   /** @format int32 */
   customer_number?: number;
@@ -1057,6 +1176,8 @@ export interface LemonRestModelsProxyOffer {
   offer_customer_reference?: string;
   offer_customer_name2?: string;
   offer_customer_address1?: string;
+  offer_customer_address2?: string;
+  offer_customer_address3?: string;
   offer_customer_country?: string;
   offer_customer_contact?: string;
   /** @format int32 */
@@ -1066,6 +1187,7 @@ export interface LemonRestModelsProxyOffer {
   delivery_customer_name2?: string;
   delivery_customer_address1?: string;
   delivery_customer_address2?: string;
+  delivery_customer_address3?: string;
   delivery_customer_country?: string;
   delivery_customer_contact?: string;
   won_bit?: boolean;
@@ -1085,6 +1207,19 @@ export interface LemonRestModelsProxyOffer {
   /** @format int32 */
   order_number?: number;
   links?: LemonRestModelsProxyLink[];
+  /** @format int32 */
+  Sales_phase_collection?: number;
+  /** @format int32 */
+  Offer_current_sales_phase?: number;
+  /** @format int32 */
+  orderer_customer_number?: number;
+  orderer_customer_name1?: string;
+  orderer_customer_name2?: string;
+  orderer_customer_address1?: string;
+  orderer_customer_address2?: string;
+  orderer_customer_address3?: string;
+  orderer_customer_country?: string;
+  orderer_customer_contact?: string;
 }
 
 export interface LemonRestModelsProxyOfferRow {
@@ -1186,6 +1321,7 @@ export interface LemonRestModelsQueryFiltersOrderFilter {
   /** @format date-time */
   updated_after?: string;
   only_allowed_types?: boolean;
+  skip_service?: boolean;
   sort_desc?: boolean;
   only_models?: boolean;
   object_ids?: number[];
@@ -1292,6 +1428,8 @@ export interface LemonRestModelsProxySalesOrder {
   description?: string;
   invoice_reference?: string;
   language_code?: string;
+  /** @format int32 */
+  note_number?: number;
   note?: string;
   mark?: string;
   our_reference?: string;
@@ -1359,6 +1497,7 @@ export interface LemonRestModelsProxySalesOrder {
   invoice_from_project?: boolean;
   triangulation_transaction?: boolean;
   customerdata_from_payload?: boolean;
+  online_url?: string;
 }
 
 export interface LemonRestModelsProxySalesOrderRow {
@@ -1407,6 +1546,11 @@ export interface LemonRestModelsProxySalesOrderRow {
   stock_unit?: string;
   /** @format double */
   collected_amount?: number;
+  shelf?: string;
+  is_production_ready?: boolean;
+  serials?: LemonRestModelsProxySalesOrderRowSerialNumber[];
+  shelves?: LemonRestModelsProxyStockTransactionShelf[];
+  batches?: LemonRestModelsProxySalesOrderRowBatchNumber[];
   /** @format int32 */
   id?: number;
   /** @format int32 */
@@ -1515,6 +1659,10 @@ export interface LemonRestModelsProxyOrderDeliveryInfo {
   forwarder?: string;
   info1?: string;
   info2?: string;
+  destination?: string;
+  package_type?: string;
+  /** @format date-time */
+  can_invoice_date?: string;
 }
 
 export interface LemonRestModelsProxyServiceOrderPerson {
@@ -1538,6 +1686,18 @@ export interface LemonRestModelsProxySalesOrderRowSerialNumber {
   serialnr_description?: string;
 }
 
+export interface LemonRestModelsProxyStockTransactionShelf {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  stock_transaction_id?: number;
+  shelf?: string;
+  /** @format double */
+  amount?: number;
+  shelf_and_saldo?: string;
+  is_inventory?: boolean;
+}
+
 export interface LemonRestModelsProxySalesOrderRowBatchNumber {
   /** @format int32 */
   sales_orderrow_batch_id?: number;
@@ -1548,6 +1708,52 @@ export interface LemonRestModelsProxySalesOrderRowBatchNumber {
   batchnr_suppliercode: string;
   /** @format double */
   batchnr_amount: number;
+}
+
+export interface LemonRestModelsProxyOrderPreDeliveryInfo {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  order_id?: number;
+  /** @format int32 */
+  method_id?: number;
+  description?: string;
+  forwarder?: string;
+  instructions?: string;
+  departure?: string;
+  destination?: string;
+  departure_door?: string;
+  destination_door?: string;
+  info1?: string;
+  info2?: string;
+  /** @format int32 */
+  packages?: number;
+  /** @format double */
+  weight?: number;
+  /** @format double */
+  m3?: number;
+  /** @format double */
+  m2?: number;
+  /** @format double */
+  pallets?: number;
+  noconsigment_number?: boolean;
+  route?: string;
+  delivery_packages?: LemonRestModelsProxyPreDeliveryInfoPackage[];
+}
+
+export interface LemonRestModelsProxyPreDeliveryInfoPackage {
+  package_code?: string;
+  description?: string;
+  /** @format double */
+  weight?: number;
+  /** @format double */
+  m3?: number;
+  /** @format double */
+  m2?: number;
+  /** @format double */
+  pallets?: number;
+  /** @format int32 */
+  packages?: number;
 }
 
 export interface LemonRestModelsQueryFiltersServiceInstructionFilter {
@@ -1617,10 +1823,20 @@ export interface LemonRestModelsProxyOrderDeliveryPalletRow {
 }
 
 export interface LemonRestModelsQueryFiltersPersonFilter {
+  /** @format date-time */
+  created_before?: string;
+  /** @format date-time */
+  created_after?: string;
+  /** @format date-time */
+  updated_before?: string;
+  /** @format date-time */
+  updated_after?: string;
   /** @format int32 */
   role?: number;
   costcenter?: string;
   hide_models?: boolean;
+  /** @format int32 */
+  number?: number;
   object_ids?: number[];
   /**
    * Page number. If not provided, using default value of 1
@@ -1692,6 +1908,7 @@ export interface LemonRestModelsProxyJob {
   km?: number;
   /** @format int32 */
   vehicle?: number;
+  calculate_allowance?: boolean;
   header?: string;
   code?: string;
   /** @format int32 */
@@ -1739,6 +1956,9 @@ export interface LemonRestModelsProxyJob {
   worktime_reason_code?: number;
   /** @format int32 */
   workshift?: number;
+  /** @format int32 */
+  team?: number;
+  team_description?: string;
 }
 
 export interface LemonRestModelsProxyPersonMainData {
@@ -1778,6 +1998,8 @@ export interface LemonRestModelsQueryFiltersWorkHourFilter {
   /** @format date-time */
   date_after?: string;
   states?: number[];
+  /** @format int32 */
+  job_id?: number;
   object_ids?: number[];
   /**
    * Page number. If not provided, using default value of 1
@@ -1872,10 +2094,20 @@ export interface LemonRestModelsProxyWorkHourMaterial {
 /** Työajan filtteri */
 export interface LemonRestModelsQueryFiltersWorkTimeFilter {
   /** @format date-time */
+  created_before?: string;
+  /** @format date-time */
+  created_after?: string;
+  /** @format date-time */
+  updated_before?: string;
+  /** @format date-time */
+  updated_after?: string;
+  /** @format date-time */
   date_before?: string;
   /** @format date-time */
   date_after?: string;
   states?: number[];
+  /** @format int32 */
+  job_id?: number;
   object_ids?: number[];
   /**
    * Page number. If not provided, using default value of 1
@@ -1934,6 +2166,8 @@ export interface LemonRestModelsProxyWorkTime {
   source_description?: string;
   /** @format int32 */
   reason?: number;
+  /** @format date-time */
+  modified_date?: string;
 }
 
 /** Työajan lisän proxy */
@@ -2020,6 +2254,125 @@ export interface LemonRestModelsProxyPersonLogin {
   office?: number;
   short_name?: string;
   username?: string;
+}
+
+/** eKuitin proxy */
+export interface LemonRestModelsProxyEReceipt {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  person_number?: number;
+  person_name?: string;
+  /** @format date-time */
+  date?: string;
+  description?: string;
+  /** @format double */
+  total_price?: number;
+  prices?: LemonRestModelsProxyEReceiptPrice[];
+  files?: LemonRestModelsProxyEReceiptFile[];
+}
+
+/** eKuitin hinta proxy */
+export interface LemonRestModelsProxyEReceiptPrice {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  ereceipt_id?: number;
+  /** @format double */
+  total?: number;
+  /** @format int32 */
+  expense_type?: number;
+  expense_type_description?: string;
+  /** @format int32 */
+  project?: number;
+  project_description?: string;
+  costcenter?: string;
+  costcenter_description?: string;
+  lta?: string;
+  lta_description?: string;
+}
+
+/** eKuitin tiedosto proxy */
+export interface LemonRestModelsProxyEReceiptFile {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  ereceipt_id?: number;
+  filename?: string;
+  /** @format int32 */
+  lemonfiles_file_id?: number;
+}
+
+export interface LemonRestModelsQueryFiltersShiftPlanningRowFilter {
+  /** @format date-time */
+  date_before?: string;
+  /** @format date-time */
+  date_after?: string;
+  persons?: number[];
+  person_groups?: number[];
+  object_ids?: number[];
+  /**
+   * Page number. If not provided, using default value of 1
+   * @format int32
+   */
+  page?: number;
+  /**
+   * Page size. If not provided, using default value of 10
+   * @format int32
+   */
+  page_size?: number;
+  search?: string;
+}
+
+export interface LemonRestModelsQueryFiltersWorktimeFosSummaryFilter {
+  /** @format int32 */
+  person?: number;
+  /** @format date-time */
+  start?: string;
+  /** @format date-time */
+  end?: string;
+}
+
+/** Henkilön matkainfon filtteri */
+export interface LemonRestModelsQueryFiltersPersonTravelInfoFilter {
+  /** @format date-time */
+  start?: string;
+  /** @format date-time */
+  end?: string;
+}
+
+export interface LemonRestModelsProxyKellokorttiShiftPlanningDetails {
+  groups?: LemonRestModelsProxyKellokorttiPersonGroup[];
+  workshifts?: LemonRestModelsProxyKellokorttiWorkshift[];
+  persons?: LemonRestModelsProxyKellokorttiPerson[];
+}
+
+export interface LemonRestModelsProxyKellokorttiPersonGroup {
+  /** @format int32 */
+  id?: number;
+  name?: string;
+}
+
+export interface LemonRestModelsProxyKellokorttiWorkshift {
+  /** @format int32 */
+  id?: number;
+  name?: string;
+  /** @format date-time */
+  start_date?: string;
+  /** @format date-time */
+  end_date?: string;
+}
+
+export interface LemonRestModelsProxyKellokorttiPerson {
+  /** @format int32 */
+  id?: number;
+  name?: string;
+  /** @format int32 */
+  supervisor?: number;
+  /** @format int32 */
+  office?: number;
+  /** @format int32 */
+  person_group?: number;
 }
 
 export interface LemonRestModelsQueryFiltersPricelistFilter {
@@ -2172,6 +2525,7 @@ export interface LemonRestModelsQueryFiltersProductPriceFilter {
 export interface LemonRestModelsQueryFiltersProductFilter {
   name?: string;
   sku?: string[];
+  ean?: string[];
   /** @format date-time */
   modified_before?: string;
   /** @format date-time */
@@ -2181,10 +2535,10 @@ export interface LemonRestModelsQueryFiltersProductFilter {
   extra_name?: string;
   /** @format int32 */
   category_id?: number;
-  /** @format int32 */
-  group_code?: number;
+  group_code?: string;
   show_models?: boolean;
   show_nonactive?: boolean;
+  show_nonstock?: boolean;
   shelf?: string;
   /** @format int32 */
   shelf_stock?: number;
@@ -2192,6 +2546,12 @@ export interface LemonRestModelsQueryFiltersProductFilter {
   stock?: number;
   sort_by_sku?: boolean;
   search_words?: string[];
+  /** Vain myytävät tuotteet */
+  is_sales?: boolean;
+  /** Vain ostettavat tuotteet */
+  is_purchase?: boolean;
+  /** Vain saldolliset */
+  only_with_balance?: boolean;
   object_ids?: number[];
   /**
    * Page number. If not provided, using default value of 1
@@ -2227,6 +2587,7 @@ export interface LemonRestModelsProxyProduct {
   size_type?: number;
   /** @format int32 */
   type?: number;
+  type_description?: string;
   stock_unit?: string;
   /** @format double */
   sales_price_taxful?: number;
@@ -2500,7 +2861,7 @@ export interface LemonRestModelsProxyStockShelf {
   /** @format int32 */
   stock_number?: number;
   stock_shelf?: string;
-  /** @format int32 */
+  /** @format double */
   in_stock?: number;
   /** @format date-time */
   in_date?: string;
@@ -2560,6 +2921,7 @@ export interface LemonRestModelsQueryFiltersProductSerialFilter {
   /** @format int32 */
   stock?: number;
   in_stock?: boolean;
+  only_empty?: boolean;
   object_ids?: number[];
   /**
    * Page number. If not provided, using default value of 1
@@ -2612,6 +2974,218 @@ export interface LemonRestModelsQueryFiltersProductSaldoFilter {
   updated_after: string;
 }
 
+export interface LemonRestModelsProxyMainStructureOriginUpdate {
+  substructure_rows?: LemonRestModelsProxySubstructureFull[];
+  product_code?: string;
+  /** @format int32 */
+  work_number?: number;
+  product_description?: string;
+  product_description2?: string;
+  /** @format int32 */
+  handling?: number;
+  /** @format int32 */
+  price_type?: number;
+  all_levels_bit?: boolean;
+  /** @format double */
+  amount?: number;
+  /** @format int32 */
+  stock?: number;
+  dimension?: string;
+  /** @format int32 */
+  color?: number;
+  structure_no_update_attributes?: string;
+  info1?: string;
+  info2?: string;
+}
+
+export interface LemonRestModelsProxySubstructureFull {
+  /** @format int32 */
+  sub_structure_id?: number;
+  /** @format int32 */
+  main_structure_id?: number;
+  product_description?: string;
+  product_description2?: string;
+  dimension?: string;
+  info1?: string;
+  info2?: string;
+  /** @format double */
+  amount?: number;
+  /** @format double */
+  amount2?: number;
+  /** @format int32 */
+  per?: number;
+  unit?: string;
+  /** @format double */
+  waste?: number;
+  /** @format int32 */
+  stock?: number;
+  /** @format int32 */
+  row?: number;
+  /** @format int32 */
+  level?: number;
+  /** @format int32 */
+  worknumber?: number;
+  passive_bit?: boolean;
+  /** @format int32 */
+  configure_attribute?: number;
+  color?: string;
+  note?: string;
+  askamount?: boolean;
+  /** @format double */
+  netprice?: number;
+  /** @format double */
+  collected?: number;
+  serial?: string;
+  bit1?: boolean;
+  started?: boolean;
+  /** @format date-time */
+  started_date?: string;
+  subcontract?: boolean;
+  ready?: boolean;
+  /** @format date-time */
+  ready_date?: string;
+  /** @format double */
+  doneamount?: number;
+  just_imported?: boolean;
+  /** @format double */
+  minamount?: number;
+  /** @format int32 */
+  color_code?: number;
+  /** @format int32 */
+  type?: number;
+  /** @format int32 */
+  parent_id?: number;
+  /** @format int32 */
+  sub_workstage_id?: number;
+  /** @format double */
+  collected_bad?: number;
+  /** @format int32 */
+  orginal_configure_attr?: number;
+  product_batchnr_suppliercode?: string;
+  /** @format double */
+  consumption?: number;
+  /** @format double */
+  profit?: number;
+  /** @format int32 */
+  delivery_priority?: number;
+  /** @format int32 */
+  customer_number?: number;
+  no_unravel?: boolean;
+  configure_text?: string;
+  /** @format int32 */
+  dimension_type?: number;
+  /** @format int32 */
+  original_id?: number;
+  division_amount?: string;
+  /** @format int32 */
+  workstage_type?: number;
+  /** @format double */
+  manual_netprice?: number;
+  /** @format double */
+  manual_netprice_unit_amount?: number;
+}
+
+export interface LemonRestModelsProxyStructureFilter {
+  product_code?: string;
+  /** @format int32 */
+  work_number?: number;
+}
+
+export interface LemonRestModelsProxyMainStructureOrigin {
+  structure_rows?: LemonRestModelsProxyGenericStructure[];
+  product_code?: string;
+  /** @format int32 */
+  work_number?: number;
+  product_description?: string;
+  product_description2?: string;
+  /** @format int32 */
+  handling?: number;
+  /** @format int32 */
+  price_type?: number;
+  all_levels_bit?: boolean;
+  /** @format double */
+  amount?: number;
+  /** @format int32 */
+  stock?: number;
+  dimension?: string;
+  /** @format int32 */
+  color?: number;
+  structure_no_update_attributes?: string;
+  info1?: string;
+  info2?: string;
+}
+
+export interface LemonRestModelsProxyGenericStructure {
+  main_structure?: LemonRestModelsProxyMainStructureFull;
+  sub_structure?: LemonRestModelsProxySubstructureFull;
+  structure_rows?: LemonRestModelsProxyGenericStructure[];
+  product_code?: string;
+}
+
+export interface LemonRestModelsProxyMainStructureFull {
+  /** @format int32 */
+  work_number?: number;
+  product_description?: string;
+  product_description2?: string;
+  /** @format int32 */
+  handling?: number;
+  /** @format int32 */
+  price_type?: number;
+  all_levels_bit?: boolean;
+  /** @format double */
+  amount?: number;
+  /** @format int32 */
+  stock?: number;
+  dimension?: string;
+  /** @format int32 */
+  color?: number;
+  structure_no_update_attributes?: string;
+  info1?: string;
+  info2?: string;
+}
+
+export interface LemonRestModelsQueryFiltersCollectJobFilter {
+  /** @format int32 */
+  person_number?: number;
+  states?: number[];
+  object_ids?: number[];
+  /**
+   * Page number. If not provided, using default value of 1
+   * @format int32
+   */
+  page?: number;
+  /**
+   * Page size. If not provided, using default value of 10
+   * @format int32
+   */
+  page_size?: number;
+  search?: string;
+}
+
+/** Keräystapahtuman ruutini proxy */
+export interface LemonRestModelsProxyCollectRoutine {
+  /** @format int32 */
+  collect_row_id?: number;
+  /** @format double */
+  collected_amount_temp?: number;
+  shelves?: LemonRestModelsProxyCollectTransactionShelf[];
+}
+
+export interface LemonRestModelsProxyCollectTransactionShelf {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  transaction_id?: number;
+  shelf?: string;
+  product_code?: string;
+  /** @format int32 */
+  stock_number?: number;
+  /** @format double */
+  collected?: number;
+  /** @format double */
+  shelf_instock?: number;
+}
+
 export interface LemonRestModelsProxyStockTransaction {
   /** @format int32 */
   id?: number;
@@ -2648,17 +3222,6 @@ export interface LemonRestModelsProxyStockTransaction {
   batches?: LemonRestModelsProxyStockTransactionBatch[];
   serials?: LemonRestModelsProxyStockTransactionSerialNumber[];
   sizes?: LemonRestModelsProxySizeAmount[];
-}
-
-export interface LemonRestModelsProxyStockTransactionShelf {
-  /** @format int32 */
-  id?: number;
-  /** @format int32 */
-  stock_transaction_id?: number;
-  shelf?: string;
-  /** @format double */
-  amount?: number;
-  is_inventory?: boolean;
 }
 
 export interface LemonRestModelsProxyStockTransactionBatch {
@@ -2714,6 +3277,35 @@ export interface LemonRestModelsProxyStockTransactionSerialNumber {
   serialnr_stock_number?: number;
   /** @format int32 */
   serialnr_inventory_tmp?: number;
+}
+
+export interface LemonRestModelsQueryFiltersStockTransactionFilter {
+  /** @format int32 */
+  id?: number;
+  product_code?: string;
+  /** @format int32 */
+  stock_number?: number;
+  /** @format date-time */
+  modified_before?: string;
+  /** @format date-time */
+  modified_after?: string;
+  /** @format date-time */
+  transaction_date_before?: string;
+  /** @format date-time */
+  transaction_date_after?: string;
+  /** @format int32 */
+  page?: number;
+  /** @format int32 */
+  page_size?: number;
+  /** @format int32 */
+  type?: number;
+  /** @format int32 */
+  source?: number;
+  search?: string;
+  /** @format int32 */
+  person?: number;
+  /** @format int32 */
+  work_number?: number;
 }
 
 export interface LemonRestModelsProxyStockTransactionFull {
@@ -2792,12 +3384,6 @@ export interface LemonRestModelsQueryFiltersMainWorkstageFilter {
   page_size?: number;
 }
 
-export interface LemonRestModelsProxyProductionPostEndJob {
-  main_ws?: LemonRestModelsProxyProductionProductMainWorkStage;
-  sub_structures?: LemonRestModelsProxyProductSubStructure[];
-  end_job_data?: LemonRestModelsProxyProductionProductionEndJob;
-}
-
 export interface LemonRestModelsProxyProductionProductMainWorkStage {
   /** @format int32 */
   id?: number;
@@ -2833,6 +3419,7 @@ export interface LemonRestModelsProxyProductionProductMainWorkStage {
   priority?: number;
   product_code?: string;
   product_description?: string;
+  product_extra?: string;
   /** @format int32 */
   row_type?: number;
   /** @format double */
@@ -2862,6 +3449,281 @@ export interface LemonRestModelsProxyProductionProductMainWorkStage {
   /** @format int32 */
   delivery_id?: number;
   sub_workstages?: LemonRestModelsProxyProductionProductSubWorkStage[];
+}
+
+export interface LemonRestModelsProxyProductionProductSubWorkStage {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  main_workstage_id?: number;
+  /** @format int32 */
+  worknumber?: number;
+  /** @format int32 */
+  order_nro?: number;
+  /** @format int32 */
+  suborder_nro?: number;
+  /** @format int32 */
+  machine_id?: number;
+  /** @format int32 */
+  workphase_id?: number;
+  description?: string;
+  description2?: string;
+  /** @format int32 */
+  state?: number;
+  state_description?: string;
+  /** @format double */
+  productivity?: number;
+  /** @format double */
+  capacity?: number;
+  /** @format double */
+  capacity2?: number;
+  /** @format int32 */
+  unit?: number;
+  /** @format int32 */
+  setting_time?: number;
+  /** @format int32 */
+  settle_time?: number;
+  /** @format double */
+  batch_amount?: number;
+  info?: string;
+  program?: string;
+  /** @format double */
+  price?: number;
+  /** @format int32 */
+  start_code?: number;
+  /** @format int32 */
+  customer_number?: number;
+  customer_name?: string;
+  /** @format double */
+  amount?: number;
+  left?: boolean;
+  right?: boolean;
+  up?: boolean;
+  down?: boolean;
+  inner?: boolean;
+  configure?: boolean;
+  purchase_bit?: boolean;
+  /** @format double */
+  sales_price?: number;
+  /** @format double */
+  net_price?: number;
+  /** @format int32 */
+  persons?: number;
+  /** @format double */
+  person_cost?: number;
+  /** @format double */
+  waste?: number;
+  /** @format int32 */
+  duration?: number;
+  /** @format date-time */
+  start_time?: string;
+  /** @format date-time */
+  end_time?: string;
+  /** @format double */
+  work_amount?: number;
+  /** @format double */
+  work_amount2?: number;
+  /** @format double */
+  work_amount_done?: number;
+  /** @format double */
+  work_amount_left?: number;
+  /** @format int32 */
+  type?: number;
+  /** @format int32 */
+  can_start?: number;
+  /** @format int32 */
+  purchase_order?: number;
+  /** @format int32 */
+  compilation_worknumber?: number;
+  /** @format int32 */
+  project_phase_id?: number;
+  person?: string;
+  /** @format int32 */
+  day_order?: number;
+  /** @format int32 */
+  duration_type?: number;
+  machine_code?: string;
+  machine_description?: string;
+  product_code?: string;
+  /** @format int32 */
+  stage_type?: number;
+  /** @format int32 */
+  standard_id?: number;
+  materials?: LemonRestModelsProxyProductionWorkstageMaterial[];
+  tools?: LemonRestModelsProxyProductionWorkstageTool[];
+}
+
+export interface LemonRestModelsProxyProductionWorkstageMaterial {
+  /** @format int32 */
+  sub_structure_id?: number;
+  product_code?: string;
+  product_description?: string;
+  /** @format double */
+  amount?: number;
+  /** @format double */
+  demanded_amount?: number;
+  /** @format double */
+  collected?: number;
+  /** @format double */
+  collected_bad?: number;
+  unit?: string;
+  /** @format int32 */
+  stock?: number;
+  stock_description?: string;
+  is_serial?: boolean;
+  is_batch?: boolean;
+  /** @format int32 */
+  sub_structure_row?: number;
+  /** @format int32 */
+  level?: number;
+  /** @format int32 */
+  father_id?: number;
+  is_passive?: boolean;
+  /** @format int32 */
+  main_workstage_id?: number;
+  shelves?: LemonRestModelsProxyProductionWorkstageMaterialShelf[];
+}
+
+export interface LemonRestModelsProxyProductionWorkstageTool {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  tool_id?: number;
+  description?: string;
+  is_default?: boolean;
+  /** @format double */
+  usage_per_unit?: number;
+}
+
+export interface LemonRestModelsProxyProductionWorkstageMaterialShelf {
+  shelf?: string;
+  /** @format double */
+  amount?: number;
+  is_default?: boolean;
+}
+
+export interface LemonRestModelsQueryFiltersWorkstageFilter {
+  product_code?: string;
+  /** @format int32 */
+  worknumber?: number;
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  main_structure_id?: number;
+  /** @format int32 */
+  sub_structure_id?: number;
+  product_description?: string;
+  /** @format int32 */
+  page?: number;
+  /** @format int32 */
+  page_size?: number;
+}
+
+/** Filter for subworkstages */
+export interface LemonRestModelsQueryFiltersSubWorkstageFilter {
+  only_startable?: boolean;
+  /** @format date-time */
+  after_date?: string;
+  /** @format date-time */
+  before_date?: string;
+  states?: number[];
+  /** @format int32 */
+  person?: number;
+  read_materials?: boolean;
+  worknumbers?: number[];
+  /** Should sub_workstage_rowtype = 9 (in compilation) jobs be included. */
+  show_in_compilation?: boolean;
+  object_ids?: number[];
+  /**
+   * Page number. If not provided, using default value of 1
+   * @format int32
+   */
+  page?: number;
+  /**
+   * Page size. If not provided, using default value of 10
+   * @format int32
+   */
+  page_size?: number;
+  search?: string;
+}
+
+/** Proxy for starting a job */
+export interface LemonRestModelsProxyProductionJobStart {
+  /** Machine code. Uses default machine from job if empty/does not exist */
+  machine_code?: string;
+  /** Job's comment. comment_main = null keeps existing comment. */
+  comment_main?: string;
+  /** Job's selected tools, list of id-numbers */
+  tools?: number[];
+}
+
+/** Model for completion entry */
+export interface LemonRestModelsProxyProductionProductionJobDone {
+  /** @format int32 */
+  sub_workstage_id?: number;
+  /** @format int32 */
+  person_number?: number;
+  /** @format double */
+  done_amount?: number;
+  job_done?: boolean;
+  /** @format int32 */
+  stock_number?: number;
+  shelf?: string;
+  /** @format int32 */
+  setting_cost?: number;
+  next_job_info?: string;
+  job_comment?: string;
+  /** @format date-time */
+  start_date?: string;
+  /** @format date-time */
+  done_date?: string;
+  /** @format double */
+  hours?: number;
+  /** @format int32 */
+  what_to_do_with_other_workhours?: number;
+  /** @format double */
+  failed_amount?: number;
+  /** @format date-time */
+  failed_date?: string;
+  failed_description?: string;
+  /** @format int32 */
+  failed_sec_type?: number;
+  failed_add_costprice?: boolean;
+  fail_codes?: number[];
+  serials?: LemonRestModelsProxyProductionProductionJobDoneSerial[];
+  batches?: LemonRestModelsProxyStockTransactionBatch[];
+  material_consumptions?: LemonRestModelsProxyProductionMaterialConsumption[];
+}
+
+/** Model for serials in completion entry */
+export interface LemonRestModelsProxyProductionProductionJobDoneSerial {
+  serialnr_code?: string;
+  serialnr_description?: string;
+  serialnr_product_code?: string;
+}
+
+/** Model for material consumption */
+export interface LemonRestModelsProxyProductionMaterialConsumption {
+  /** @format int32 */
+  structure_id?: number;
+  /** @format double */
+  consumption_amount?: number;
+  /** @format double */
+  defective_amount?: number;
+  shelves?: LemonRestModelsProxyProductionMaterialConsumptionShelf[];
+}
+
+/** Shelf model for material consumption */
+export interface LemonRestModelsProxyProductionMaterialConsumptionShelf {
+  shelf?: string;
+  /** @format double */
+  amount?: number;
+}
+
+export interface LemonRestModelsProxyProductionPostEndJob {
+  main_ws?: LemonRestModelsProxyProductionProductMainWorkStage;
+  sub_structures?: LemonRestModelsProxyProductSubStructure[];
+  end_job_data?: LemonRestModelsProxyProductionProductionEndJob;
 }
 
 export interface LemonRestModelsProxyProductSubStructure {
@@ -2951,112 +3813,33 @@ export interface LemonRestModelsProxyProductionProductionEndJob {
   create_sub_contract?: boolean;
   /** @format int32 */
   purchase_order_type?: number;
+  /** @format int32 */
+  what_to_do_with_other_workhours?: number;
   transaction_batches?: LemonRestModelsProxyStockTransactionBatch[];
   serial_numbers?: LemonRestModelsProxyStockTransactionSerialNumber[];
 }
 
-export interface LemonRestModelsProxyProductionProductSubWorkStage {
+/** Tuotannon keräilyn model */
+export interface LemonRestModelsProxyStructurePicking {
   /** @format int32 */
-  id?: number;
-  /** @format int32 */
-  main_workstage_id?: number;
-  /** @format int32 */
-  worknumber?: number;
-  /** @format int32 */
-  order_nro?: number;
-  /** @format int32 */
-  suborder_nro?: number;
-  /** @format int32 */
-  machine_id?: number;
-  /** @format int32 */
-  workphase_id?: number;
-  description?: string;
-  description2?: string;
-  /** @format int32 */
-  state?: number;
-  state_description?: string;
+  sub_structure_id?: number;
   /** @format double */
-  productivity?: number;
-  /** @format double */
-  capacity?: number;
-  /** @format double */
-  capacity2?: number;
-  /** @format int32 */
-  unit?: number;
-  /** @format int32 */
-  setting_time?: number;
-  /** @format int32 */
-  settle_time?: number;
-  /** @format double */
-  batch_amount?: number;
-  info?: string;
-  program?: string;
-  /** @format double */
-  price?: number;
-  /** @format int32 */
-  start_code?: number;
-  /** @format int32 */
-  customer_number?: number;
-  /** @format double */
-  amount?: number;
-  left?: boolean;
-  right?: boolean;
-  up?: boolean;
-  down?: boolean;
-  inner?: boolean;
-  configure?: boolean;
-  purchase_bit?: boolean;
-  /** @format double */
-  sales_price?: number;
-  /** @format double */
-  net_price?: number;
-  /** @format int32 */
-  persons?: number;
-  /** @format double */
-  person_cost?: number;
-  /** @format double */
-  waste?: number;
-  /** @format int32 */
-  duration?: number;
-  /** @format date-time */
-  start_time?: string;
-  /** @format date-time */
-  end_time?: string;
-  /** @format double */
-  work_amount?: number;
-  /** @format double */
-  work_amount2?: number;
-  /** @format double */
-  work_amount_done?: number;
-  /** @format double */
-  work_amount_left?: number;
-  /** @format int32 */
-  type?: number;
-  /** @format int32 */
-  can_start?: number;
-  /** @format int32 */
-  purchase_order?: number;
-  /** @format int32 */
-  compilation_worknumber?: number;
-  /** @format int32 */
-  project_phase_id?: number;
-  person?: string;
-  /** @format int32 */
-  day_order?: number;
-  /** @format int32 */
-  duration_type?: number;
-  machine_code?: string;
-  machine_description?: string;
-  product_code?: string;
-  materials?: LemonRestModelsProxyProductionWorkstageMaterial[];
+  picked_amount?: number;
 }
 
-export interface LemonRestModelsProxyProductionWorkstageMaterial {
+/** Uuden tuotannon keräilyn model */
+export interface LemonRestModelsProxyNewStructurePicking {
   product_code?: string;
   /** @format double */
-  amount?: number;
-  /** @format double */
-  demanded_amount?: number;
+  picked_amount?: number;
+  /** @format int32 */
+  sub_structure_row?: number;
+  /** @format int32 */
+  level?: number;
+  /** @format int32 */
+  father_id?: number;
+  /** @format int32 */
+  stock_number?: number;
 }
 
 export interface LemonRestModelsQueryFiltersMachineFilter {
@@ -3069,6 +3852,8 @@ export interface LemonRestModelsQueryFiltersMachineFilter {
   /** @format double */
   capacity?: number;
   is_disabled?: boolean;
+  /** @format int32 */
+  group_id?: number;
   object_ids?: number[];
   /**
    * Page number. If not provided, using default value of 1
@@ -3128,6 +3913,8 @@ export interface LemonRestModelsProxyProject {
   project_number?: number;
   /** @format int32 */
   project_state?: number;
+  /** @format int32 */
+  sales_order_number?: number;
   project_description?: string;
   project_fulldescription?: string;
   /** @format double */
@@ -3203,6 +3990,10 @@ export interface LemonRestModelsProxyProject {
   project_invoice_ordermark?: string;
   /** @format int32 */
   project_work_pricelist?: number;
+  /** @format int32 */
+  seller?: number;
+  /** @format date-time */
+  modified_date?: string;
 }
 
 export interface LemonRestModelsProxyProjectContact {
@@ -3346,6 +4137,7 @@ export interface LemonRestModelsProxyProjectPhase {
   worktime_invoicing_type?: number;
   /** @format int32 */
   worktime_material_invoicing_type?: number;
+  expenses?: LemonRestModelsProxyProjectPhaseExpense[];
 }
 
 export interface LemonRestModelsProxySite {
@@ -3421,6 +4213,22 @@ export interface LemonRestModelsProxyProjectPhaseContact {
   project_phase_resource_amount?: number;
   /** @format int32 */
   project_contacts_total?: number;
+}
+
+export interface LemonRestModelsProxyProjectPhaseExpense {
+  /** @format int32 */
+  phase_id?: number;
+  /** @format int32 */
+  expense_id?: number;
+  /** @format int32 */
+  expense_group_id?: number;
+  /** @format double */
+  expense_amount?: number;
+  /** @format double */
+  expense_unitprice?: number;
+  /** @format double */
+  expense_total?: number;
+  expense_locked?: boolean;
 }
 
 export interface LemonRestModelsQueryFiltersInvoiceFilter {
@@ -3518,6 +4326,14 @@ export interface LemonRestModelsProxyPurchaseInvoice {
   foreign_type?: string;
   clearing?: string;
   www_link?: string;
+  online_url?: string;
+  /** @format date-time */
+  modified_date?: string;
+  /** @format date-time */
+  value_date?: string;
+  /** @format date-time */
+  cash_date?: string;
+  circulation_ready?: boolean;
   purchase_invoice_payments?: LemonRestModelsProxyPurchaseInvoicePayment[];
   purchase_invoice_rows?: LemonRestModelsProxyPurchaseInvoiceRow[];
   purchase_invoice_circulations?: LemonRestModelsProxyPurchaseInvoiceCirculation[];
@@ -3614,12 +4430,14 @@ export interface LemonRestModelsProxyPurchaseInvoiceRow {
   /** @format int32 */
   expensegroup?: number;
   lta?: string;
+  ean_code?: string;
   worksitecode?: string;
   worksitenumber?: string;
   /** @format int32 */
   receiptnumber?: number;
   worksite_bit?: boolean;
   reporttull_bit?: boolean;
+  buyer_article_identifier?: string;
 }
 
 export interface LemonRestModelsProxyPurchaseInvoiceCirculation {
@@ -3717,6 +4535,7 @@ export interface LemonRestModelsQueryFiltersPurchaseOrderFilter {
   /** @format date-time */
   updated_after?: string;
   only_allowed_types?: boolean;
+  skip_models?: boolean;
   sort_desc?: boolean;
   object_ids?: number[];
   /**
@@ -3797,6 +4616,10 @@ export interface LemonRestModelsProxyPurchaseOrder {
   /** @format int32 */
   purchase_order_id?: number;
   delivery_info?: LemonRestModelsProxyOrderDeliveryInfo;
+  online_url?: string;
+  /** @format int32 */
+  driver?: number;
+  driver_info?: LemonRestModelsProxyDriverInfo;
 }
 
 export interface LemonRestModelsProxyPurchaseOrderRow {
@@ -3822,6 +4645,8 @@ export interface LemonRestModelsProxyPurchaseOrderRow {
   /** @format int32 */
   row_product_batch_id?: number;
   stock_unit?: string;
+  /** @format int32 */
+  stock_inout_id?: number;
   row_sizes?: LemonRestModelsProxySizeAmount[];
   serials?: LemonRestModelsProxySerialNumberTmp[];
   batches?: LemonRestModelsProxyStockTransactionBatch[];
@@ -3894,6 +4719,15 @@ export interface LemonRestModelsProxyPurchaseOrderRow {
   is_batch_follow_up?: boolean;
 }
 
+export interface LemonRestModelsProxyDriverInfo {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  code?: number;
+  description?: string;
+  phone?: string;
+}
+
 export interface LemonRestModelsProxySerialNumberTmp {
   /** @format int32 */
   row_id?: number;
@@ -3911,6 +4745,43 @@ export interface LemonRestModelsProxyPurchaseOrderRowShelf {
   shelf?: string;
   /** @format double */
   amount?: number;
+}
+
+/** Salary filters */
+export interface LemonRestModelsQueryFiltersSalaryFilter {
+  /**
+   * Person number filter
+   * @format int32
+   */
+  person_number?: number;
+  /** Only approved salaries */
+  only_approved?: boolean;
+  object_ids?: number[];
+  /**
+   * Page number. If not provided, using default value of 1
+   * @format int32
+   */
+  page?: number;
+  /**
+   * Page size. If not provided, using default value of 10
+   * @format int32
+   */
+  page_size?: number;
+  search?: string;
+}
+
+/** Kumulatiivisen palkkojen haku filtteri */
+export interface LemonRestModelsQueryFiltersSalaryCumulativeFilter {
+  /**
+   * Henkilönumero
+   * @format int32
+   */
+  person_number?: number;
+  /**
+   * Ennen pvm
+   * @format date-time
+   */
+  before?: string;
 }
 
 /** Function setting filter */
@@ -3931,17 +4802,18 @@ export interface LemonRestModelsQueryFiltersCostCenterFilter {
   page_size?: number;
 }
 
-export interface LemonRestModelsQueryFiltersPageFilter {
+/** Cost center suggestion filter */
+export interface LemonRestModelsQueryFiltersCostCenterSuggestionFilter {
   /**
-   * If not defined, using default value of 1
+   * Form of salary number
    * @format int32
    */
-  page?: number;
+  formofsalary?: number;
   /**
-   * If not defined, using default value of 10
+   * Person number
    * @format int32
    */
-  page_size?: number;
+  person?: number;
 }
 
 export interface LemonRestModelsQueryFiltersLtaFilter {
@@ -4028,6 +4900,7 @@ export interface LemonRestModelsQueryFiltersStockFilter {
 
 /** Yleinen matkalasku proxy */
 export interface LemonRestModelsProxyGlobalTravelExpense {
+  passenger_list?: LemonRestModelsProxyTravelExpensePassenger[];
   /** @format int32 */
   id?: number;
   /** @format int32 */
@@ -4055,6 +4928,45 @@ export interface LemonRestModelsProxyGlobalTravelExpense {
   /** @format int32 */
   passengers?: number;
   note?: string;
+  calculate_allowance?: boolean;
+  /** @format double */
+  travel_time?: number;
+  free_meal?: boolean;
+  /** @format double */
+  night_allowance?: number;
+  /** @format int32 */
+  night_allowance_fos?: number;
+  country_code?: string;
+  /** @format double */
+  kilometers2?: number;
+}
+
+export interface LemonRestModelsProxyTravelExpensePassenger {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  row_id?: number;
+  /** @format int32 */
+  person_number?: number;
+  /** @format double */
+  start?: number;
+  /** @format double */
+  end?: number;
+  /** @format double */
+  total?: number;
+  route?: string;
+}
+
+/** Yleinen matkalasku yhteenveto proxy */
+export interface LemonRestModelsProxyGlobalTravelExpenseSummary {
+  /** @format int32 */
+  id?: number;
+  /** @format int32 */
+  person?: number;
+  /** @format date-time */
+  date?: string;
+  description?: string;
+  rows?: LemonRestModelsProxyGlobalTravelExpense[];
 }
 
 export interface LemonRestModelsLogInTokenInstanceDatabase {
@@ -4075,7 +4987,8 @@ export interface MicrosoftAspNetCoreJsonPatchOperationsOperationLemonRestModelsP
   from?: string;
 }
 
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
+import axios from "axios";
 
 export type QueryParamsType = Record<string | number, any>;
 
@@ -4209,7 +5122,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title LemonRest 2023.9 build_2341
+ * @title LemonRest 2024.5 release-2024.5-b112031
  * @version v1
  * @baseUrl https://rest-s01-prod02.lemonsoft.eu/Lemonsoft30
  */
@@ -4302,32 +5215,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     campaignList: (
       query?: {
         /** @format int32 */
-        "filter.campaign_type"?: number;
+        filterCampaignType?: number;
         /** @format int32 */
-        "filter.campaign_state"?: number;
+        filterCampaignState?: number;
         /** @format int32 */
-        "filter.responsible_person"?: number;
+        filterResponsiblePerson?: number;
         /** @format date-time */
-        "filter.campaign_created_before"?: string;
+        filterCampaignCreatedBefore?: string;
         /** @format date-time */
-        "filter.campaign_created_after"?: string;
-        "filter.campaign_description"?: string;
+        filterCampaignCreatedAfter?: string;
+        filterCampaignDescription?: string;
         /** @format date-time */
-        "filter.updated_before"?: string;
+        filterUpdatedBefore?: string;
         /** @format date-time */
-        "filter.updated_after"?: string;
-        "filter.object_ids"?: number[];
+        filterUpdatedAfter?: string;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -4511,6 +5424,69 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
+  codelist = {
+    /**
+     * @description The CodeList filter enum values: ABC_GROUPS = 1, AREAS = 2, BUSINESS_ACTIVITY_AREACODES = 3, BUSINESSCODES = 4, CHAINS = 5, COMPANY_GROUPS = 6, CUSTOMER_CLASSES = 7, CUSTOMER_SEGMENT_CODES = 8, EMPLOYER_QUANTITY_CODES = 9, MAINBUSINESS_CODES = 10, TURNOVER_CODES = 11, DELIVERY_METHODS = 12, DELIVERYPACKAGE_TYPES = 13, PRODUCT_COLORS = 14, DRIVERS = 15, COUNTRIES = 16, DELIVERY_TERMS = 17, INVOICE_METHODS = 18, EXPENSE_GROUPS = 19, ACCOUNT_TYPES = 20,
+     *
+     * @tags Codelist
+     * @name CodelistList
+     * @summary Retrieves a codelist based on the specified filter.
+     * @request GET:/api/codelist/description
+     * @response `200` `object` OK
+     */
+    codelistList: (
+      query: {
+        filterName?: string;
+        filterCodeListFilter:
+          | "ABC_GROUPS"
+          | "AREAS"
+          | "BUSINESS_ACTIVITY_AREACODES"
+          | "BUSINESSCODES"
+          | "CHAINS"
+          | "COMPANY_GROUPS"
+          | "CUSTOMER_CLASSES"
+          | "CUSTOMER_SEGMENT_CODES"
+          | "EMPLOYER_QUANTITY_CODES"
+          | "MAINBUSINESS_CODES"
+          | "TURNOVER_CODES"
+          | "DELIVERY_METHODS"
+          | "DELIVERYPACKAGE_TYPES"
+          | "PRODUCT_COLORS"
+          | "DRIVERS"
+          | "COUNTRIES"
+          | "DELIVERY_TERMS"
+          | "INVOICE_METHODS"
+          | "EXPENSE_GROUPS"
+          | "ACCOUNT_TYPES";
+        filterObjectIds?: number[];
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/codelist/description`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Codelist
+     * @name CodelistListPaymentTerms
+     * @summary Get payment terms
+     * @request GET:/api/codelist/payment_term
+     * @response `200` `object` OK
+     */
+    codelistListPaymentTerms: (params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/codelist/payment_term`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+  };
   contacts = {
     /**
      * @description Can be filtered using ContactFilter
@@ -4525,24 +5501,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       customerId: number,
       query?: {
         /** Contact name [CONTAINS] */
-        "filter.name"?: string;
-        "filter.email"?: string;
+        filterName?: string;
+        filterEmail?: string;
         /** @format date-time */
-        "filter.modified_before"?: string;
+        filterModifiedBefore?: string;
         /** @format date-time */
-        "filter.modified_after"?: string;
-        "filter.object_ids"?: number[];
+        filterModifiedAfter?: string;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -4604,35 +5580,44 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     customerList: (
       query?: {
-        "filter.name"?: string;
-        "filter.search_name"?: string;
-        "filter.email"?: string;
-        "filter.vat"?: string;
+        filterName?: string;
+        filterSearchName?: string;
+        filterEmail?: string;
+        filterVat?: string;
         /** @format date-time */
-        "filter.modified_before"?: string;
+        filterModifiedBefore?: string;
         /** @format date-time */
-        "filter.modified_after"?: string;
+        filterModifiedAfter?: string;
         /** @format int32 */
-        "filter.has_email"?: number;
+        filterHasEmail?: number;
         /** @format int32 */
-        "filter.is_customer"?: number;
+        filterIsCustomer?: number;
         /** @format int32 */
-        "filter.is_supplier"?: number;
-        "filter.customer_number"?: number[];
+        filterIsSupplier?: number;
+        filterCustomerNumber?: number[];
         /** @format int32 */
-        "filter.group"?: number;
-        "filter.object_ids"?: number[];
+        filterGroup?: number;
+        /** @format date-time */
+        filterCreatedBefore?: string;
+        /** @format date-time */
+        filterCreatedAfter?: string;
+        /** @format date-time */
+        filterUpdatedBefore?: string;
+        /** @format date-time */
+        filterUpdatedAfter?: string;
+        filterAttributeIds?: number[];
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -4674,35 +5659,44 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     customerListBase: (
       query?: {
-        "filter.name"?: string;
-        "filter.search_name"?: string;
-        "filter.email"?: string;
-        "filter.vat"?: string;
+        filterName?: string;
+        filterSearchName?: string;
+        filterEmail?: string;
+        filterVat?: string;
         /** @format date-time */
-        "filter.modified_before"?: string;
+        filterModifiedBefore?: string;
         /** @format date-time */
-        "filter.modified_after"?: string;
+        filterModifiedAfter?: string;
         /** @format int32 */
-        "filter.has_email"?: number;
+        filterHasEmail?: number;
         /** @format int32 */
-        "filter.is_customer"?: number;
+        filterIsCustomer?: number;
         /** @format int32 */
-        "filter.is_supplier"?: number;
-        "filter.customer_number"?: number[];
+        filterIsSupplier?: number;
+        filterCustomerNumber?: number[];
         /** @format int32 */
-        "filter.group"?: number;
-        "filter.object_ids"?: number[];
+        filterGroup?: number;
+        /** @format date-time */
+        filterCreatedBefore?: string;
+        /** @format date-time */
+        filterCreatedAfter?: string;
+        /** @format date-time */
+        filterUpdatedBefore?: string;
+        /** @format date-time */
+        filterUpdatedAfter?: string;
+        filterAttributeIds?: number[];
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -4883,35 +5877,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     customerListTransaction: (
       query?: {
         /** @format int32 */
-        "filter.type"?: number;
+        filterType?: number;
         /** @format int32 */
-        "filter.state"?: number;
+        filterState?: number;
         /** @format int32 */
-        "filter.customer_number"?: number;
+        filterCustomerNumber?: number;
         /** @format date-time */
-        "filter.transaction_date_before"?: string;
+        filterTransactionDateBefore?: string;
         /** @format date-time */
-        "filter.transaction_date_after"?: string;
+        filterTransactionDateAfter?: string;
         /** @format int32 */
-        "filter.person_number"?: number;
+        filterPersonNumber?: number;
         /** @format int32 */
-        "filter.todo_person_number"?: number;
+        filterTodoPersonNumber?: number;
         /** @format int32 */
-        "filter.project_number"?: number;
+        filterProjectNumber?: number;
         /** @format int32 */
-        "filter.customer_contact_id"?: number;
-        "filter.object_ids"?: number[];
+        filterCustomerContactId?: number;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -5113,21 +6107,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     customerListGroups: (
       query?: {
-        "filter.name"?: string;
+        filterName?: string;
         /** @format int32 */
-        "filter.parent_id"?: number;
-        "filter.object_ids"?: number[];
+        filterParentId?: number;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -5169,8 +6163,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     fileGetFiles: (
       query?: {
         /** @format int32 */
-        "filter.application_id"?: number;
-        "filter.search"?: string;
+        filterApplicationId?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -5253,6 +6247,25 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         format: "json",
         ...params,
       }),
+
+    /**
+     * No description
+     *
+     * @tags File
+     * @name FileUploadProgramImage
+     * @summary Upload file to program images
+     * @request POST:/api/files/programimage
+     * @response `200` `object` OK
+     */
+    fileUploadProgramImage: (proxy: LemonRestModelsProxyProgramImage, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/files/programimage`,
+        method: "POST",
+        body: proxy,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
   };
   invoices = {
     /**
@@ -5266,33 +6279,33 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     invoiceList: (
       query?: {
-        "filter.numbers"?: number[];
+        filterNumbers?: number[];
         /** @format int32 */
-        "filter.customer_number"?: number;
+        filterCustomerNumber?: number;
         /** @format int32 */
-        "filter.delivery_customer_number"?: number;
+        filterDeliveryCustomerNumber?: number;
         /** @format int32 */
-        "filter.type"?: number;
+        filterType?: number;
         /** @format date-time */
-        "filter.invoice_date_before"?: string;
+        filterInvoiceDateBefore?: string;
         /** @format date-time */
-        "filter.invoice_date_after"?: string;
+        filterInvoiceDateAfter?: string;
         /** @format date-time */
-        "filter.updated_before"?: string;
+        filterUpdatedBefore?: string;
         /** @format date-time */
-        "filter.updated_after"?: string;
-        "filter.object_ids"?: number[];
+        filterUpdatedAfter?: string;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -5509,6 +6522,335 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
+  log = {
+    /**
+     * @description Possible values for logType: <list type="bullet"><item><description>Customer = 1, </description></item><item><description>Product = 2, </description></item><item><description>Person = 3, </description></item><item><description>Invoicing = 4, </description></item><item><description>PLedger = 5, </description></item><item><description>Campaign = 6, </description></item><item><description>Offer = 7, </description></item><item><description>SalesOrder = 8, </description></item><item><description>PurchaseOrder = 9, </description></item><item><description>CashRegister = 10, </description></item><item><description>Payroll = 11, </description></item><item><description>Production = 12, </description></item><item><description>Accounting = 13, </description></item><item><description>AccountList = 14, </description></item><item><description>Project = 15, </description></item><item><description>ServiceOrder = 16, </description></item><item><description>TravelExpense = 17, </description></item><item><description>CustomerAgreement = 18, </description></item><item><description>Complaints = 21, </description></item><item><description>Assets = 23, </description></item><item><description>NumberSeries = 57, </description></item><item><description>FormOfSalaries = 63, </description></item><item><description>Pricelist = 75, </description></item><item><description>TimeRegistration = 200, </description></item><item><description>HRCalendar = 212, </description></item><item><description>Worktime = 253, </description></item><item><description>CustomerTransaction = 300, </description></item><item><description>ExpenseInvoice = 400, </description></item><item><description>eKuittiLemon = 402, </description></item><item><description>AccountStatement = 570, </description></item><item><description>ProjectPhase = 17000, </description></item><item><description>ShiftPlanning = 17005, </description></item><item><description>Kellokortti2 = 20000</description></item></list>
+     *
+     * @tags Log
+     * @name LogGetDeletedIds
+     * @summary Returns a list of IDs for deleted objects from logs
+     * @request GET:/api/log/deleted
+     * @response `200` `object` OK
+     */
+    logGetDeletedIds: (
+      query: {
+        /** Type of the requested logs. Possible values are described in the remarks section. */
+        logType:
+          | "Lemonsoft"
+          | "Customer"
+          | "Product"
+          | "Person"
+          | "Invoicing"
+          | "PLedger"
+          | "Campaign"
+          | "Offer"
+          | "SalesOrder"
+          | "PurchaseOrder"
+          | "CashRegister"
+          | "Payroll"
+          | "Production"
+          | "Accounting"
+          | "AccountList"
+          | "Project"
+          | "ServiceOrder"
+          | "TravelExpense"
+          | "CustomerAgreement"
+          | "PurchaceinvoicingCirculation"
+          | "TravelExpenseCirculation"
+          | "Complaints"
+          | "DeliveryAgreement"
+          | "Assets"
+          | "SalesOrderDelivery"
+          | "SalaryCirculation"
+          | "PurchaseInvoiceCirculationSmart"
+          | "AccountingCirculation"
+          | "SalaryCirculationSmart"
+          | "TaxFormAttachment"
+          | "NumberSeries"
+          | "FormOfSalaries"
+          | "Pricelist"
+          | "TimeRegistration"
+          | "CustomerList"
+          | "CustomerCentrum"
+          | "TransactionCentrum"
+          | "ProductCentrum"
+          | "SalesLedgerCentrum"
+          | "InvoicingCentrum"
+          | "ReferencePayments"
+          | "PurchaseInvoicePayments"
+          | "ProductList"
+          | "ProjectCentrum"
+          | "OfferCentrum"
+          | "HRCalendar"
+          | "Timestamp"
+          | "PersonSkillProfile"
+          | "PurchaseInvoiceImportedImages"
+          | "HRCalendarAcceptance"
+          | "PurchaseInvoiceHubZips"
+          | "IncomeRegisterSending"
+          | "Worktime"
+          | "CustomerTransaction"
+          | "Calendar"
+          | "CustomerTransactionList"
+          | "ExpenseInvoice"
+          | "eKuittiLemon"
+          | "eKuittiLemonAccountStatement"
+          | "AccountStatement"
+          | "MultiBank"
+          | "CompanyPayments"
+          | "LemonFiles"
+          | "Initiatives"
+          | "LoyalityHandling"
+          | "SalesOrderCentrum"
+          | "Consignment"
+          | "SSCC"
+          | "PurchaseOrderCentrum"
+          | "SupplierPortalCentrum"
+          | "FeedbackCentre"
+          | "Feedback"
+          | "DevelopmentIdea"
+          | "CustomerHistory"
+          | "BalanceOfAccount"
+          | "BalanceofAccountSupplier"
+          | "PurchaseInvoiceFinvoiceImport"
+          | "PurchaseInvoiceCentrum"
+          | "ProductBatchHandling"
+          | "ProductStructure"
+          | "StockCollectJobs"
+          | "PalletHandling"
+          | "ProductionJobList"
+          | "ProductionList"
+          | "ProductionStatus"
+          | "ProductionGANTT"
+          | "ProductionBatchPlanning"
+          | "ProductionStandars"
+          | "ProductionComplaints"
+          | "SSRSReports"
+          | "MachineHistory"
+          | "Worknumbers"
+          | "ResourceHandling"
+          | "ResourcePlanning"
+          | "LemonShop"
+          | "CollectJobs"
+          | "ProjectEnterpriseSearch"
+          | "WorktimeRegulation"
+          | "ProjectPhase"
+          | "WorkHour"
+          | "PreOrderInfo"
+          | "WorkHourMaterial"
+          | "WorkTimeMaterial"
+          | "ShiftPlanning"
+          | "ShiftPlanningProposedShifts"
+          | "ShiftPlanningFreeShifts"
+          | "Kellokortti2"
+          | "eKuittiMobile";
+        /**
+         * Start date for delete logs. One year prior to the current date by default.
+         * @format date-time
+         */
+        startDate?: string;
+        /**
+         * End date for delete logs. Current date as default
+         * @format date-time
+         */
+        endDate?: string;
+        /**
+         * If not defined, using default value of 1
+         * @format int32
+         */
+        filterPage?: number;
+        /**
+         * If not defined, using default value of 10
+         * @format int32
+         */
+        filterPageSize?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/log/deleted`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Possible values for logType: <list type="bullet"><item><description>Customer = 1, </description></item><item><description>Product = 2, </description></item><item><description>Person = 3, </description></item><item><description>Invoicing = 4, </description></item><item><description>PLedger = 5, </description></item><item><description>Campaign = 6, </description></item><item><description>Offer = 7, </description></item><item><description>SalesOrder = 8, </description></item><item><description>PurchaseOrder = 9, </description></item><item><description>CashRegister = 10, </description></item><item><description>Payroll = 11, </description></item><item><description>Production = 12, </description></item><item><description>Accounting = 13, </description></item><item><description>AccountList = 14, </description></item><item><description>Project = 15, </description></item><item><description>ServiceOrder = 16, </description></item><item><description>TravelExpense = 17, </description></item><item><description>CustomerAgreement = 18, </description></item><item><description>Complaints = 21, </description></item><item><description>Assets = 23, </description></item><item><description>NumberSeries = 57, </description></item><item><description>FormOfSalaries = 63, </description></item><item><description>Pricelist = 75, </description></item><item><description>TimeRegistration = 200, </description></item><item><description>HRCalendar = 212, </description></item><item><description>Worktime = 253, </description></item><item><description>CustomerTransaction = 300, </description></item><item><description>ExpenseInvoice = 400, </description></item><item><description>eKuittiLemon = 402, </description></item><item><description>AccountStatement = 570, </description></item><item><description>ProjectPhase = 17000, </description></item><item><description>ShiftPlanning = 17005, </description></item><item><description>Kellokortti2 = 20000</description></item></list>
+     *
+     * @tags Log
+     * @name LogGetDeleteEvents
+     * @summary Returns a list of deletion events from logs
+     * @request GET:/api/log/deletion_events
+     * @response `200` `object` OK
+     */
+    logGetDeleteEvents: (
+      query: {
+        /** Type of the requested logs. Possible values are described in the remarks section. */
+        logType:
+          | "Lemonsoft"
+          | "Customer"
+          | "Product"
+          | "Person"
+          | "Invoicing"
+          | "PLedger"
+          | "Campaign"
+          | "Offer"
+          | "SalesOrder"
+          | "PurchaseOrder"
+          | "CashRegister"
+          | "Payroll"
+          | "Production"
+          | "Accounting"
+          | "AccountList"
+          | "Project"
+          | "ServiceOrder"
+          | "TravelExpense"
+          | "CustomerAgreement"
+          | "PurchaceinvoicingCirculation"
+          | "TravelExpenseCirculation"
+          | "Complaints"
+          | "DeliveryAgreement"
+          | "Assets"
+          | "SalesOrderDelivery"
+          | "SalaryCirculation"
+          | "PurchaseInvoiceCirculationSmart"
+          | "AccountingCirculation"
+          | "SalaryCirculationSmart"
+          | "TaxFormAttachment"
+          | "NumberSeries"
+          | "FormOfSalaries"
+          | "Pricelist"
+          | "TimeRegistration"
+          | "CustomerList"
+          | "CustomerCentrum"
+          | "TransactionCentrum"
+          | "ProductCentrum"
+          | "SalesLedgerCentrum"
+          | "InvoicingCentrum"
+          | "ReferencePayments"
+          | "PurchaseInvoicePayments"
+          | "ProductList"
+          | "ProjectCentrum"
+          | "OfferCentrum"
+          | "HRCalendar"
+          | "Timestamp"
+          | "PersonSkillProfile"
+          | "PurchaseInvoiceImportedImages"
+          | "HRCalendarAcceptance"
+          | "PurchaseInvoiceHubZips"
+          | "IncomeRegisterSending"
+          | "Worktime"
+          | "CustomerTransaction"
+          | "Calendar"
+          | "CustomerTransactionList"
+          | "ExpenseInvoice"
+          | "eKuittiLemon"
+          | "eKuittiLemonAccountStatement"
+          | "AccountStatement"
+          | "MultiBank"
+          | "CompanyPayments"
+          | "LemonFiles"
+          | "Initiatives"
+          | "LoyalityHandling"
+          | "SalesOrderCentrum"
+          | "Consignment"
+          | "SSCC"
+          | "PurchaseOrderCentrum"
+          | "SupplierPortalCentrum"
+          | "FeedbackCentre"
+          | "Feedback"
+          | "DevelopmentIdea"
+          | "CustomerHistory"
+          | "BalanceOfAccount"
+          | "BalanceofAccountSupplier"
+          | "PurchaseInvoiceFinvoiceImport"
+          | "PurchaseInvoiceCentrum"
+          | "ProductBatchHandling"
+          | "ProductStructure"
+          | "StockCollectJobs"
+          | "PalletHandling"
+          | "ProductionJobList"
+          | "ProductionList"
+          | "ProductionStatus"
+          | "ProductionGANTT"
+          | "ProductionBatchPlanning"
+          | "ProductionStandars"
+          | "ProductionComplaints"
+          | "SSRSReports"
+          | "MachineHistory"
+          | "Worknumbers"
+          | "ResourceHandling"
+          | "ResourcePlanning"
+          | "LemonShop"
+          | "CollectJobs"
+          | "ProjectEnterpriseSearch"
+          | "WorktimeRegulation"
+          | "ProjectPhase"
+          | "WorkHour"
+          | "PreOrderInfo"
+          | "WorkHourMaterial"
+          | "WorkTimeMaterial"
+          | "ShiftPlanning"
+          | "ShiftPlanningProposedShifts"
+          | "ShiftPlanningFreeShifts"
+          | "Kellokortti2"
+          | "eKuittiMobile";
+        /**
+         * Start date for delete logs. One year prior to the current date by default.
+         * @format date-time
+         */
+        startDate?: string;
+        /**
+         * End date for delete logs. Current date as default
+         * @format date-time
+         */
+        endDate?: string;
+        /**
+         * If not defined, using default value of 1
+         * @format int32
+         */
+        filterPage?: number;
+        /**
+         * If not defined, using default value of 10
+         * @format int32
+         */
+        filterPageSize?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/log/deletion_events`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
+  numberseries = {
+    /**
+     * @description The NumberSeries filter enum values: invoice = 1,
+     *
+     * @tags NumberSeries
+     * @name NumberSeriesList
+     * @summary Retrieves a numberseries based on the specified filter.
+     * @request GET:/api/numberseries
+     * @response `200` `object` OK
+     */
+    numberSeriesList: (
+      query: {
+        filterNumberSeries: "invoice";
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/numberseries`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
   offers = {
     /**
      * No description
@@ -5564,31 +6906,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     offerList: (
       query?: {
         /** @format int32 */
-        "filter.customer_number"?: number;
+        filterCustomerNumber?: number;
         /** @format int32 */
-        "filter.delivery_customer_number"?: number;
+        filterDeliveryCustomerNumber?: number;
         /** @format date-time */
-        "filter.offer_date_before"?: string;
+        filterOfferDateBefore?: string;
         /** @format date-time */
-        "filter.offer_date_after"?: string;
+        filterOfferDateAfter?: string;
         /** @format date-time */
-        "filter.updated_before"?: string;
+        filterUpdatedBefore?: string;
         /** @format date-time */
-        "filter.updated_after"?: string;
-        "filter.include_old_versions"?: boolean;
-        "filter.offer_numbers"?: number[];
-        "filter.object_ids"?: number[];
+        filterUpdatedAfter?: string;
+        filterIncludeOldVersions?: boolean;
+        filterOfferNumbers?: number[];
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -5692,6 +7034,71 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Offer
+     * @name OfferUpdateOfferRows
+     * @summary Updates OfferRows for the offerNumber based on a list of OfferRows
+     * @request PUT:/api/offers/{offerNumber}/offerrowlist
+     * @response `200` `object` OK
+     */
+    offerUpdateOfferRows: (
+      offerNumber: number,
+      proxyOfferRows: LemonRestModelsProxyOfferRow[],
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/offers/${offerNumber}/offerrowlist`,
+        method: "PUT",
+        body: proxyOfferRows,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Offer
+     * @name OfferCreateOfferRows
+     * @summary Creates new OfferRows for the offerNumber based on a list of OfferRows
+     * @request POST:/api/offers/{offerNumber}/offerrowlist
+     * @response `200` `object` OK
+     */
+    offerCreateOfferRows: (
+      offerNumber: number,
+      proxyOfferRows: LemonRestModelsProxyOfferRow[],
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/offers/${offerNumber}/offerrowlist`,
+        method: "POST",
+        body: proxyOfferRows,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Offer
+     * @name OfferDeleteOfferRows
+     * @summary Deletes OfferRows based on a list of OfferRow Ids
+     * @request DELETE:/api/offers/{offerNumber}/offerrowlist
+     * @response `200` `object` OK
+     */
+    offerDeleteOfferRows: (offerNumber: number, offerRowIds: number[], params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/offers/${offerNumber}/offerrowlist`,
+        method: "DELETE",
+        body: offerRowIds,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Offer
      * @name OfferCreateLink
      * @summary Create a offer link
      * @request POST:/api/offers/{offerNumber}/links
@@ -5723,6 +7130,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         format: "json",
         ...params,
       }),
+
+    /**
+     * No description
+     *
+     * @tags Offer
+     * @name OfferGetSalesPhaseCollectionList
+     * @summary Get SalesPhaseCollections list
+     * @request GET:/api/offers/salesPhaseCollections
+     * @response `200` `object` OK
+     */
+    offerGetSalesPhaseCollectionList: (params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/offers/salesPhaseCollections`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
   };
   orders = {
     /**
@@ -5737,36 +7161,37 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     orderList: (
       query?: {
         /** @format int32 */
-        "filter.type"?: number;
-        "filter.state"?: number[];
+        filterType?: number;
+        filterState?: number[];
         /** @format int32 */
-        "filter.customer_number"?: number;
+        filterCustomerNumber?: number;
         /** @format int32 */
-        "filter.delivery_customer_number"?: number;
-        "filter.order_numbers"?: number[];
+        filterDeliveryCustomerNumber?: number;
+        filterOrderNumbers?: number[];
         /** @format date-time */
-        "filter.ordered_before"?: string;
+        filterOrderedBefore?: string;
         /** @format date-time */
-        "filter.ordered_after"?: string;
+        filterOrderedAfter?: string;
         /** @format date-time */
-        "filter.updated_before"?: string;
+        filterUpdatedBefore?: string;
         /** @format date-time */
-        "filter.updated_after"?: string;
-        "filter.only_allowed_types"?: boolean;
-        "filter.sort_desc"?: boolean;
-        "filter.only_models"?: boolean;
-        "filter.object_ids"?: number[];
+        filterUpdatedAfter?: string;
+        filterOnlyAllowedTypes?: boolean;
+        filterSkipService?: boolean;
+        filterSortDesc?: boolean;
+        filterOnlyModels?: boolean;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -5820,6 +7245,68 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Order
+     * @name OrderReadDelivery
+     * @summary Returns order's delivery info with corresponding delivery info id
+     * @request GET:/api/orders/delivery/{delivery_id}
+     * @response `200` `object` OK
+     */
+    orderReadDelivery: (deliveryId: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/orders/delivery/${deliveryId}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name OrderReadDeliveryByOrderId
+     * @summary Returns order's deliveries with corresponding order id
+     * @request GET:/api/orders/{order_id}/delivery
+     * @response `200` `object` OK
+     */
+    orderReadDeliveryByOrderId: (orderId: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/orders/${orderId}/delivery`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name OrderCreatePreDelivery
+     * @summary Creates pre delivery info for order
+     * @request POST:/api/orders/{order_id}/predelivery
+     * @response `200` `object` OK
+     */
+    orderCreatePreDelivery: (
+      orderId: number,
+      query: {
+        /** recalculates amounts */
+        calculate_amounts: boolean;
+      },
+      delivery: LemonRestModelsProxyOrderPreDeliveryInfo,
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/orders/${orderId}/predelivery`,
+        method: "POST",
+        query: query,
+        body: delivery,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
      * @name OrderGetOrderStatus
      * @summary Get order status
      * @request GET:/api/orders/{order_id}/status
@@ -5842,10 +7329,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/orders/{order_id}
      * @response `200` `object` OK
      */
-    orderGet: (orderId: number, params: RequestParams = {}) =>
+    orderGet: (
+      orderId: number,
+      query?: {
+        /** Prepare order for the delivery or not */
+        prepare_delivery?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<object, any>({
         path: `/api/orders/${orderId}`,
         method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name OrderDelete
+     * @summary Delete order
+     * @request DELETE:/api/orders/{order_id}
+     * @response `200` `object` OK
+     */
+    orderDelete: (orderId: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/orders/${orderId}`,
+        method: "DELETE",
         format: "json",
         ...params,
       }),
@@ -5884,6 +7396,29 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         method: "POST",
         body: proxyOrderRow,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name OrderCreateOrderRowBody
+     * @summary Get body of order row
+     * @request GET:/api/orders/{order_id}/row/{product_code}/{amount}/{unit_id}
+     * @response `200` `object` OK
+     */
+    orderCreateOrderRowBody: (
+      orderId: number,
+      productCode: string,
+      amount: number,
+      unitId: number,
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/orders/${orderId}/row/${productCode}/${amount}/${unitId}`,
+        method: "GET",
         format: "json",
         ...params,
       }),
@@ -5981,18 +7516,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orderGetServiceInstructions: (
       query?: {
-        "filter.object_ids"?: number[];
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -6214,6 +7749,34 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Order
+     * @name OrderAddPreDeliveryInfoRow
+     * @summary Add predelivery info row to order
+     * @request POST:/api/orders/{order_id}/PreDeliveryInfoRow
+     * @response `200` `object` OK
+     */
+    orderAddPreDeliveryInfoRow: (
+      orderId: number,
+      query: {
+        /** recalculate M2, M3, Weight, PalletMeters and Packages */
+        reCalculate: boolean;
+      },
+      preDeliveryInfoPackageProxy: LemonRestModelsProxyPreDeliveryInfoPackage,
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/orders/${orderId}/PreDeliveryInfoRow`,
+        method: "POST",
+        query: query,
+        body: preDeliveryInfoPackageProxy,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Order
      * @name OrderGetNewSscc
      * @summary Returns autogenerated SSCC-code for pallet
      * @request GET:/api/orders/deliverypallet/new_sscc
@@ -6329,6 +7892,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         format: "json",
         ...params,
       }),
+
+    /**
+     * No description
+     *
+     * @tags Order
+     * @name OrderGetSerialNumberSuggestions
+     * @summary Returns automatically selected serials for an order row
+     * @request GET:/api/orders/{order_id}/row/{row_id}/serialsuggestions/{serial}
+     * @response `200` `object` OK
+     */
+    orderGetSerialNumberSuggestions: (orderId: number, rowId: number, serial: string, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/orders/${orderId}/row/${rowId}/serialsuggestions/${serial}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
   };
   persons = {
     /**
@@ -6342,22 +7922,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     personGetPersons: (
       query?: {
+        /** @format date-time */
+        filterCreatedBefore?: string;
+        /** @format date-time */
+        filterCreatedAfter?: string;
+        /** @format date-time */
+        filterUpdatedBefore?: string;
+        /** @format date-time */
+        filterUpdatedAfter?: string;
         /** @format int32 */
-        "filter.role"?: number;
-        "filter.costcenter"?: string;
-        "filter.hide_models"?: boolean;
-        "filter.object_ids"?: number[];
+        filterRole?: number;
+        filterCostcenter?: string;
+        filterHideModels?: boolean;
+        /** @format int32 */
+        filterNumber?: number;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -6365,6 +7955,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/persons`,
         method: "GET",
         query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Person
+     * @name PersonGetPersonByNumber
+     * @summary Get person by number
+     * @request GET:/api/persons/{number}
+     * @response `200` `object` OK
+     */
+    personGetPersonByNumber: (number: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/persons/${number}`,
+        method: "GET",
         format: "json",
         ...params,
       }),
@@ -6415,32 +8022,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     personList: (
       query?: {
         /** @format int32 */
-        "filter.person_number"?: number;
-        "filter.states"?: number[];
-        "filter.job_types"?: number[];
+        filterPersonNumber?: number;
+        filterStates?: number[];
+        filterJobTypes?: number[];
         /** @format int32 */
-        "filter.company_location"?: number;
+        filterCompanyLocation?: number;
         /** @format int32 */
-        "filter.department"?: number;
-        "filter.costcenter"?: string;
+        filterDepartment?: number;
+        filterCostcenter?: string;
         /** @format int32 */
-        "filter.project_type"?: number;
+        filterProjectType?: number;
         /** @format date-time */
-        "filter.after"?: string;
+        filterAfter?: string;
         /** @format date-time */
-        "filter.before"?: string;
-        "filter.object_ids"?: number[];
+        filterBefore?: string;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -6545,6 +8152,44 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Person
+     * @name PersonSetPersonJobStartDate
+     * @summary Set person job start date
+     * @request PUT:/api/persons/jobs/{id}/{type}/startdate
+     * @response `200` `object` OK
+     */
+    personSetPersonJobStartDate: (id: number, type: number, date: string, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/persons/jobs/${id}/${type}/startdate`,
+        method: "PUT",
+        body: date,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Person
+     * @name PersonSetPersonJobEndDate
+     * @summary Set person job end date
+     * @request PUT:/api/persons/jobs/{id}/{type}/enddate
+     * @response `200` `object` OK
+     */
+    personSetPersonJobEndDate: (id: number, type: number, date: string, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/persons/jobs/${id}/${type}/enddate`,
+        method: "PUT",
+        body: date,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Person
      * @name PersonRemovePersonFromJob
      * @summary Remove person from job
      * @request DELETE:/api/persons/jobs/{id}/{type}/remove/{person_number}
@@ -6638,22 +8283,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     personGetWorkHours: (
       query?: {
         /** @format date-time */
-        "filter.date_before"?: string;
+        filterDateBefore?: string;
         /** @format date-time */
-        "filter.date_after"?: string;
-        "filter.states"?: number[];
-        "filter.object_ids"?: number[];
+        filterDateAfter?: string;
+        filterStates?: number[];
+        /** @format int32 */
+        filterJobId?: number;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -6724,6 +8371,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Person
+     * @name PersonDeleteWorkHour
+     * @summary Delete workhour
+     * @request DELETE:/api/persons/workhours/{id}
+     * @response `200` `object` OK
+     */
+    personDeleteWorkHour: (id: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/persons/workhours/${id}`,
+        method: "DELETE",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Person
      * @name PersonGetMaterials
      * @summary Get workhour materials
      * @request GET:/api/persons/workhours/{id}/materials
@@ -6733,19 +8397,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       id: number,
       query?: {
         /** @format int32 */
-        "filter.product_type"?: number;
-        "filter.object_ids"?: number[];
+        filterProductType?: number;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -6872,22 +8536,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     personGetWorkTimes: (
       query?: {
         /** @format date-time */
-        "filter.date_before"?: string;
+        filterCreatedBefore?: string;
         /** @format date-time */
-        "filter.date_after"?: string;
-        "filter.states"?: number[];
-        "filter.object_ids"?: number[];
+        filterCreatedAfter?: string;
+        /** @format date-time */
+        filterUpdatedBefore?: string;
+        /** @format date-time */
+        filterUpdatedAfter?: string;
+        /** @format date-time */
+        filterDateBefore?: string;
+        /** @format date-time */
+        filterDateAfter?: string;
+        filterStates?: number[];
+        /** @format int32 */
+        filterJobId?: number;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -6941,6 +8615,40 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Person
+     * @name PersonGetWorkTime
+     * @summary Get worktime
+     * @request GET:/api/persons/worktimes/{id}
+     * @response `200` `object` OK
+     */
+    personGetWorkTime: (id: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/persons/worktimes/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Person
+     * @name PersonDeleteWorkTime
+     * @summary Delete worktime
+     * @request DELETE:/api/persons/worktimes/{id}
+     * @response `200` `object` OK
+     */
+    personDeleteWorkTime: (id: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/persons/worktimes/${id}`,
+        method: "DELETE",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Person
      * @name PersonGetWorkTimeMaterials
      * @summary Get worktime materials
      * @request GET:/api/persons/worktimes/{id}/materials
@@ -6950,19 +8658,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       id: number,
       query?: {
         /** @format int32 */
-        "filter.product_type"?: number;
-        "filter.object_ids"?: number[];
+        filterProductType?: number;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -7128,24 +8836,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     personGetPersonAbsenceList: (
       query?: {
         /** @format int32 */
-        "filter.person_number"?: number;
-        "filter.states"?: number[];
+        filterPersonNumber?: number;
+        filterStates?: number[];
         /** @format date-time */
-        "filter.after"?: string;
+        filterAfter?: string;
         /** @format date-time */
-        "filter.before"?: string;
-        "filter.object_ids"?: number[];
+        filterBefore?: string;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -7175,6 +8883,176 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         format: "json",
         ...params,
       }),
+
+    /**
+     * No description
+     *
+     * @tags Person
+     * @name PersonGetPersonEReceipts
+     * @summary Get person eReceipts
+     * @request GET:/api/persons/{person_number}/ereceipts
+     * @response `200` `object` OK
+     */
+    personGetPersonEReceipts: (personNumber: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/persons/${personNumber}/ereceipts`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Person
+     * @name PersonCreateEReceipt
+     * @summary Create new eReceipt
+     * @request POST:/api/persons/{person_number}/ereceipts
+     * @response `200` `object` OK
+     */
+    personCreateEReceipt: (personNumber: number, proxy: LemonRestModelsProxyEReceipt, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/persons/${personNumber}/ereceipts`,
+        method: "POST",
+        body: proxy,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Person
+     * @name PersonGetPlannedShifts
+     * @summary Get planned workshifts
+     * @request POST:/api/persons/plannedshifts
+     * @response `200` `object` OK
+     */
+    personGetPlannedShifts: (
+      query?: {
+        /** @format date-time */
+        filterDateBefore?: string;
+        /** @format date-time */
+        filterDateAfter?: string;
+        filterPersons?: number[];
+        filterPersonGroups?: number[];
+        filterObjectIds?: number[];
+        /**
+         * Page number. If not provided, using default value of 1
+         * @format int32
+         */
+        filterPage?: number;
+        /**
+         * Page size. If not provided, using default value of 10
+         * @format int32
+         */
+        filterPageSize?: number;
+        filterSearch?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/persons/plannedshifts`,
+        method: "POST",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Person
+     * @name PersonGetWorktimeFosSummary
+     * @summary Get worktime fos summary list
+     * @request GET:/api/persons/worktimefossummary
+     * @response `200` `object` OK
+     */
+    personGetWorktimeFosSummary: (
+      query?: {
+        /** @format int32 */
+        filterPerson?: number;
+        /** @format date-time */
+        filterStart?: string;
+        /** @format date-time */
+        filterEnd?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/persons/worktimefossummary`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Person
+     * @name PersonGetFlexInfo
+     * @summary Get person's worktime/flex info
+     * @request GET:/api/persons/{person_number}/flexinfo
+     * @response `200` `object` OK
+     */
+    personGetFlexInfo: (personNumber: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/persons/${personNumber}/flexinfo`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Person
+     * @name PersonGetTravelInfo
+     * @summary Get person's travel info
+     * @request GET:/api/persons/{person_number}/travelinfo
+     * @response `200` `object` OK
+     */
+    personGetTravelInfo: (
+      personNumber: number,
+      query?: {
+        /** @format date-time */
+        filterStart?: string;
+        /** @format date-time */
+        filterEnd?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/persons/${personNumber}/travelinfo`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Person
+     * @name PersonSynchronizeFromKellokortti
+     * @summary Add persons, groups of persons and workshifts
+     * @request POST:/api/persons/synchronizefromkellokortti
+     * @response `200` `object` OK
+     */
+    personSynchronizeFromKellokortti: (
+      proxy: LemonRestModelsProxyKellokorttiShiftPlanningDetails,
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/persons/synchronizefromkellokortti`,
+        method: "POST",
+        body: proxy,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
   };
   pricelists = {
     /**
@@ -7188,19 +9066,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     pricelistList: (
       query?: {
-        "filter.name"?: string;
-        "filter.object_ids"?: number[];
+        filterName?: string;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -7269,14 +9147,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Date when pricelist should be valid
          * @format date-time
          */
-        "filter.list_valid_date": string;
+        filterListValidDate: string;
         /** Product unit */
-        "filter.product_unit"?: string;
+        filterProductUnit?: string;
         /**
          * Customer number
          * @format int32
          */
-        "filter.cust_no"?: number;
+        filterCustNo?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -7574,40 +9452,47 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     productList: (
       query?: {
-        "filter.name"?: string;
-        "filter.sku"?: string[];
+        filterName?: string;
+        filterSku?: string[];
+        filterEan?: string[];
         /** @format date-time */
-        "filter.modified_before"?: string;
+        filterModifiedBefore?: string;
         /** @format date-time */
-        "filter.modified_after"?: string;
+        filterModifiedAfter?: string;
         /** @format int32 */
-        "filter.attribute_id"?: number;
-        "filter.extra_name"?: string;
+        filterAttributeId?: number;
+        filterExtraName?: string;
         /** @format int32 */
-        "filter.category_id"?: number;
+        filterCategoryId?: number;
+        filterGroupCode?: string;
+        filterShowModels?: boolean;
+        filterShowNonactive?: boolean;
+        filterShowNonstock?: boolean;
+        filterShelf?: string;
         /** @format int32 */
-        "filter.group_code"?: number;
-        "filter.show_models"?: boolean;
-        "filter.show_nonactive"?: boolean;
-        "filter.shelf"?: string;
+        filterShelfStock?: number;
         /** @format int32 */
-        "filter.shelf_stock"?: number;
-        /** @format int32 */
-        "filter.stock"?: number;
-        "filter.sort_by_sku"?: boolean;
-        "filter.search_words"?: string[];
-        "filter.object_ids"?: number[];
+        filterStock?: number;
+        filterSortBySku?: boolean;
+        filterSearchWords?: string[];
+        /** Vain myytävät tuotteet */
+        filterIsSales?: boolean;
+        /** Vain ostettavat tuotteet */
+        filterIsPurchase?: boolean;
+        /** Vain saldolliset */
+        filterOnlyWithBalance?: boolean;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -7744,22 +9629,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     productListGroups: (
       query?: {
-        "filter.name"?: string;
-        "filter.web_only"?: boolean;
+        filterName?: string;
+        filterWebOnly?: boolean;
         /** @format int32 */
-        "filter.parent_id"?: number;
-        "filter.object_ids"?: number[];
+        filterParentId?: number;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -7782,22 +9667,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     productListCategories: (
       query?: {
-        "filter.name"?: string;
-        "filter.web_only"?: boolean;
+        filterName?: string;
+        filterWebOnly?: boolean;
         /** @format int32 */
-        "filter.parent_id"?: number;
-        "filter.object_ids"?: number[];
+        filterParentId?: number;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -7821,22 +9706,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     productGetProductSerialNumbers: (
       productCode: string,
       query?: {
-        "filter.serial_code"?: string;
+        filterSerialCode?: string;
         /** @format int32 */
-        "filter.stock"?: number;
-        "filter.in_stock"?: boolean;
-        "filter.object_ids"?: number[];
+        filterStock?: number;
+        filterInStock?: boolean;
+        filterOnlyEmpty?: boolean;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -7860,23 +9746,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     productGetProductBatchs: (
       productCode: string,
       query?: {
-        "filter.supplier_code"?: string;
+        filterSupplierCode?: string;
         /** @format int32 */
-        "filter.stock"?: number;
-        "filter.in_stock"?: boolean;
-        "filter.shelf"?: string;
-        "filter.object_ids"?: number[];
+        filterStock?: number;
+        filterInStock?: boolean;
+        filterShelf?: string;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -7928,6 +9814,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Product
+     * @name ProductGetProductStock
+     * @summary Get a product stock
+     * @request GET:/api/products/{productCode}/stocks/{stock}
+     * @response `200` `object` OK
+     */
+    productGetProductStock: (productCode: string, stock: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/products/${productCode}/stocks/${stock}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
      * @name ProductGetProductBaseList
      * @summary Get paged list of all products with basic information
      * @request GET:/api/products/base
@@ -7935,40 +9838,47 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     productGetProductBaseList: (
       query?: {
-        "filter.name"?: string;
-        "filter.sku"?: string[];
+        filterName?: string;
+        filterSku?: string[];
+        filterEan?: string[];
         /** @format date-time */
-        "filter.modified_before"?: string;
+        filterModifiedBefore?: string;
         /** @format date-time */
-        "filter.modified_after"?: string;
+        filterModifiedAfter?: string;
         /** @format int32 */
-        "filter.attribute_id"?: number;
-        "filter.extra_name"?: string;
+        filterAttributeId?: number;
+        filterExtraName?: string;
         /** @format int32 */
-        "filter.category_id"?: number;
+        filterCategoryId?: number;
+        filterGroupCode?: string;
+        filterShowModels?: boolean;
+        filterShowNonactive?: boolean;
+        filterShowNonstock?: boolean;
+        filterShelf?: string;
         /** @format int32 */
-        "filter.group_code"?: number;
-        "filter.show_models"?: boolean;
-        "filter.show_nonactive"?: boolean;
-        "filter.shelf"?: string;
+        filterShelfStock?: number;
         /** @format int32 */
-        "filter.shelf_stock"?: number;
-        /** @format int32 */
-        "filter.stock"?: number;
-        "filter.sort_by_sku"?: boolean;
-        "filter.search_words"?: string[];
-        "filter.object_ids"?: number[];
+        filterStock?: number;
+        filterSortBySku?: boolean;
+        filterSearchWords?: string[];
+        /** Vain myytävät tuotteet */
+        filterIsSales?: boolean;
+        /** Vain ostettavat tuotteet */
+        filterIsPurchase?: boolean;
+        /** Vain saldolliset */
+        filterOnlyWithBalance?: boolean;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -8114,17 +10024,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * If not defined, using default value 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * If not defined, using default value 10
          * @format int32
          */
-        "filter.page_size"?: number;
+        filterPageSize?: number;
         /**
          * Timestamp after product saldo should have changed
          * @format date-time
          */
-        "filter.updated_after": string;
+        filterUpdatedAfter: string;
       },
       params: RequestParams = {},
     ) =>
@@ -8132,6 +10042,133 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         path: `/api/products/stocks/saldos/changed`,
         method: "GET",
         query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Please note that when calling this endpoint and work_number is equal to 0, you can only update the first level of substructures. When updating nested substructures, send a separate request for that level with corresponding id. When work_number is higher than 0, updating nested structures is allowed
+     *
+     * @tags Product
+     * @name ProductUpdateStructure
+     * @summary Update product's mainstructure and substructures
+     * @request PUT:/api/products/structure/one_level
+     * @response `200` `object` OK
+     */
+    productUpdateStructure: (structure: LemonRestModelsProxyMainStructureOriginUpdate, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/products/structure/one_level`,
+        method: "PUT",
+        body: structure,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductGetStructure
+     * @summary Get product's structure
+     * @request GET:/api/products/structure
+     * @response `200` `object` OK
+     */
+    productGetStructure: (
+      query?: {
+        filterProductCode?: string;
+        /** @format int32 */
+        filterWorkNumber?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/products/structure`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Please note that when work number is 0 (rowtype=none), this endpoint creates every level of substructures as mainstructures with work number 0 for the corresponding product. When work number is set (rowtype=SalesOrderRow, rowtype=OfferRow) every substructure is created for that work number. In this case properties under main_structure object in the posted model aren't taken into account
+     *
+     * @tags Product
+     * @name ProductCreateStructure
+     * @summary Post complete product structure
+     * @request POST:/api/products/structure
+     * @response `200` `object` OK
+     */
+    productCreateStructure: (
+      query: {
+        /** Set this argument if structure is related to specific work */
+        rowType: "None" | "SalesOrderRow" | "OfferRow";
+        /**
+         * Order/offer row id. Set this to corresponding order or offer row id if rowType is other than none. This sets correct work number for structure
+         * @format int32
+         */
+        row_id?: number;
+      },
+      mainStructure: LemonRestModelsProxyMainStructureOrigin,
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/products/structure`,
+        method: "POST",
+        query: query,
+        body: mainStructure,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductDeleteStructures
+     * @summary Deletes product's structure
+     * @request DELETE:/api/products/{product_code}/{work_number}/structure
+     * @response `200` `object` OK
+     */
+    productDeleteStructures: (productCode: string, workNumber: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/products/${productCode}/${workNumber}/structure`,
+        method: "DELETE",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductGetStructureByWorkNumber
+     * @summary Get structure by work number
+     * @request GET:/api/products/structure/{work_number}
+     * @response `200` `object` OK
+     */
+    productGetStructureByWorkNumber: (workNumber: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/products/structure/${workNumber}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductGetStructureOneLevel
+     * @summary Get one level of product structure
+     * @request GET:/api/products/{product_code}/{work_number}/one_level
+     * @response `200` `object` OK
+     */
+    productGetStructureOneLevel: (productCode: string, workNumber: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/products/${productCode}/${workNumber}/one_level`,
+        method: "GET",
         format: "json",
         ...params,
       }),
@@ -8221,6 +10258,164 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Product
+     * @name ProductGetCollectJobs
+     * @summary Get collect jobs
+     * @request GET:/api/products/collectjobs
+     * @response `200` `object` OK
+     */
+    productGetCollectJobs: (
+      query?: {
+        /** @format int32 */
+        filterPersonNumber?: number;
+        filterStates?: number[];
+        filterObjectIds?: number[];
+        /**
+         * Page number. If not provided, using default value of 1
+         * @format int32
+         */
+        filterPage?: number;
+        /**
+         * Page size. If not provided, using default value of 10
+         * @format int32
+         */
+        filterPageSize?: number;
+        filterSearch?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/products/collectjobs`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductGetCollectJobRow
+     * @summary Get collect row
+     * @request GET:/api/products/collectjobs/collectrow/{id}
+     * @response `200` `object` OK
+     */
+    productGetCollectJobRow: (id: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/products/collectjobs/collectrow/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductCancelCollectJobRowCollect
+     * @summary Cancel collection of collect row
+     * @request POST:/api/products/collectjobs/collectrow/{id}/cancel
+     * @response `200` `object` OK
+     */
+    productCancelCollectJobRowCollect: (id: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/products/collectjobs/collectrow/${id}/cancel`,
+        method: "POST",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductStartCollectJob
+     * @summary Start collect job
+     * @request POST:/api/products/collectjobs/{id}/start
+     * @response `200` `object` OK
+     */
+    productStartCollectJob: (id: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/products/collectjobs/${id}/start`,
+        method: "POST",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductAbortCollectJob
+     * @summary Abort collect job
+     * @request POST:/api/products/collectjobs/{id}/abort
+     * @response `200` `object` OK
+     */
+    productAbortCollectJob: (id: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/products/collectjobs/${id}/abort`,
+        method: "POST",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductDoneCollectJob
+     * @summary Done collect job
+     * @request POST:/api/products/collectjobs/{id}/done
+     * @response `200` `object` OK
+     */
+    productDoneCollectJob: (id: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/products/collectjobs/${id}/done`,
+        method: "POST",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductCreateCollectTransactionShelfList
+     * @summary Return a list of shelves from which shelfs can be collected for the collect transaction
+     * @request GET:/api/products/collecttransactions/{row_id}/shelves
+     * @response `200` `object` OK
+     */
+    productCreateCollectTransactionShelfList: (rowId: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/products/collecttransactions/${rowId}/shelves`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
+     * @name ProductCollectingRow
+     * @summary Collecting collect row
+     * @request POST:/api/products/collecttransactions/collectrow
+     * @response `200` `object` OK
+     */
+    productCollectingRow: (proxy: LemonRestModelsProxyCollectRoutine, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/products/collecttransactions/collectrow`,
+        method: "POST",
+        body: proxy,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
      * @name ProductCreateStockTransaction
      * @summary Create stock transaction
      * @request POST:/api/products/{id}/stocktransaction
@@ -8295,6 +10490,54 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Product
+     * @name ProductGetTransactions
+     * @summary Get stock transactions by filters
+     * @request GET:/api/products/transactions
+     * @response `200` `object` OK
+     */
+    productGetTransactions: (
+      query?: {
+        /** @format int32 */
+        filterId?: number;
+        filterProductCode?: string;
+        /** @format int32 */
+        filterStockNumber?: number;
+        /** @format date-time */
+        filterModifiedBefore?: string;
+        /** @format date-time */
+        filterModifiedAfter?: string;
+        /** @format date-time */
+        filterTransactionDateBefore?: string;
+        /** @format date-time */
+        filterTransactionDateAfter?: string;
+        /** @format int32 */
+        filterPage?: number;
+        /** @format int32 */
+        filterPageSize?: number;
+        /** @format int32 */
+        filterType?: number;
+        /** @format int32 */
+        filterSource?: number;
+        filterSearch?: string;
+        /** @format int32 */
+        filterPerson?: number;
+        /** @format int32 */
+        filterWorkNumber?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/products/transactions`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Product
      * @name ProductSaveTransaction
      * @summary Create new stock transaction
      * @request POST:/api/products/transactions
@@ -8323,21 +10566,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     productionGetChangedMainWorkStages: (
       query: {
         /** @format date-time */
-        "filter.updated_after": string;
+        filterUpdatedAfter: string;
         /** @format date-time */
-        "filter.updated_before": string;
+        filterUpdatedBefore: string;
         /** @format int32 */
-        "filter.state"?: number;
+        filterState?: number;
         /**
          * If not defined, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * If not defined, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
+        filterPageSize?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -8377,6 +10620,81 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Production
+     * @name ProductionGetMainWorkStages
+     * @summary Get workstages
+     * @request GET:/api/production/workstage
+     * @response `200` `object` OK
+     */
+    productionGetMainWorkStages: (
+      query?: {
+        filterProductCode?: string;
+        /** @format int32 */
+        filterWorknumber?: number;
+        /** @format int32 */
+        filterId?: number;
+        /** @format int32 */
+        filterMainStructureId?: number;
+        /** @format int32 */
+        filterSubStructureId?: number;
+        filterProductDescription?: string;
+        /** @format int32 */
+        filterPage?: number;
+        /** @format int32 */
+        filterPageSize?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/production/workstage`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Production
+     * @name ProductionCreateWorkStage
+     * @summary Creates workstage
+     * @request POST:/api/production/workstage
+     * @response `200` `object` OK
+     */
+    productionCreateWorkStage: (
+      proxyMainWorkStage: LemonRestModelsProxyProductionProductMainWorkStage,
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/production/workstage`,
+        method: "POST",
+        body: proxyMainWorkStage,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Production
+     * @name ProductionDeleteWorkStage
+     * @summary Deletes workstage
+     * @request DELETE:/api/production/workstage/{id}
+     * @response `200` `object` OK
+     */
+    productionDeleteWorkStage: (id: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/production/workstage/${id}`,
+        method: "DELETE",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Production
      * @name ProductionGetSingleMainWorkStage
      * @summary Get single mainworkstage with subworkstage lists
      * @request GET:/api/production/main_ws/{id}
@@ -8385,6 +10703,94 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     productionGetSingleMainWorkStage: (id: number, params: RequestParams = {}) =>
       this.request<object, any>({
         path: `/api/production/main_ws/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Production
+     * @name ProductionGetSubWorkStages
+     * @summary Get a list of subworkstages
+     * @request GET:/api/production/main_ws/sub_ws
+     * @response `200` `object` OK
+     */
+    productionGetSubWorkStages: (
+      query?: {
+        filterOnlyStartable?: boolean;
+        /** @format date-time */
+        filterAfterDate?: string;
+        /** @format date-time */
+        filterBeforeDate?: string;
+        filterStates?: number[];
+        /** @format int32 */
+        filterPerson?: number;
+        filterReadMaterials?: boolean;
+        filterWorknumbers?: number[];
+        /** Should sub_workstage_rowtype = 9 (in compilation) jobs be included. */
+        filterShowInCompilation?: boolean;
+        filterObjectIds?: number[];
+        /**
+         * Page number. If not provided, using default value of 1
+         * @format int32
+         */
+        filterPage?: number;
+        /**
+         * Page size. If not provided, using default value of 10
+         * @format int32
+         */
+        filterPageSize?: number;
+        filterSearch?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/production/main_ws/sub_ws`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Production
+     * @name ProductionGetSingleSubWorkStage
+     * @summary Get single subworkstage with material list
+     * @request GET:/api/production/main_ws/sub_ws/{id}
+     * @response `200` `object` OK
+     */
+    productionGetSingleSubWorkStage: (
+      id: number,
+      query?: {
+        /** Include shelves for material consumption for completion entry */
+        get_material_shelves?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/production/main_ws/sub_ws/${id}`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Production
+     * @name ProductionGetProductionJobHandling
+     * @summary Get body of subworkstage's job handling for person
+     * @request GET:/api/production/{person}/main_ws/sub_ws/{id}/jobhandling
+     * @response `200` `object` OK
+     */
+    productionGetProductionJobHandling: (person: number, id: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/production/${person}/main_ws/sub_ws/${id}/jobhandling`,
         method: "GET",
         format: "json",
         ...params,
@@ -8404,10 +10810,18 @@ Returns result =  0 OK.
  * @request POST:/api/production/{work_number}/{person}/main_ws/sub_ws/{id}/start_job
  * @response `200` `object` OK
  */
-    productionStartJob: (workNumber: number, person: number, id: number, params: RequestParams = {}) =>
+    productionStartJob: (
+      workNumber: number,
+      person: number,
+      id: number,
+      productionJobStart: LemonRestModelsProxyProductionJobStart,
+      params: RequestParams = {},
+    ) =>
       this.request<object, any>({
         path: `/api/production/${workNumber}/${person}/main_ws/sub_ws/${id}/start_job`,
         method: "POST",
+        body: productionJobStart,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -8444,6 +10858,25 @@ Returns result = true if pause job OK
         path: `/api/production/${workNumber}/${person}/main_ws/sub_ws/${id}/pause_job`,
         method: "POST",
         query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Production
+     * @name ProductionJobDone
+     * @summary Job completion entry.
+     * @request POST:/api/production/main_ws/sub_ws/completion_entry
+     * @response `200` `object` OK
+     */
+    productionJobDone: (jobDoneData: LemonRestModelsProxyProductionProductionJobDone, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/production/main_ws/sub_ws/completion_entry`,
+        method: "POST",
+        body: jobDoneData,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),
@@ -8513,6 +10946,86 @@ Returns result = true if report OK, false otherwise
      * No description
      *
      * @tags Production
+     * @name ProductionGetNewProductJobSerialNumberList
+     * @summary Get serial numbers for job completion entry
+     * @request GET:/api/production/main_ws/{id}/serials/{amount}
+     * @response `200` `object` OK
+     */
+    productionGetNewProductJobSerialNumberList: (id: number, amount: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/production/main_ws/${id}/serials/${amount}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Production
+     * @name ProductionGetWorknumberMaterials
+     * @summary Get list of materials for worknumber
+     * @request GET:/api/production/main_ws/{worknumber}/materials
+     * @response `200` `object` OK
+     */
+    productionGetWorknumberMaterials: (worknumber: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/production/main_ws/${worknumber}/materials`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Production
+     * @name ProductionMaterialPicking
+     * @summary Update picked amounts for workstage materials
+     * @request POST:/api/production/main_ws/{id}/picking
+     * @response `200` `object` OK
+     */
+    productionMaterialPicking: (
+      id: number,
+      pickedStructures: LemonRestModelsProxyStructurePicking[],
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/production/main_ws/${id}/picking`,
+        method: "POST",
+        body: pickedStructures,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Production
+     * @name ProductionNewMaterialPicking
+     * @summary Create new materials from production picking
+     * @request PUT:/api/production/main_ws/{worknumber}/picking
+     * @response `200` `object` OK
+     */
+    productionNewMaterialPicking: (
+      worknumber: number,
+      pickedStructures: LemonRestModelsProxyNewStructurePicking[],
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/production/main_ws/${worknumber}/picking`,
+        method: "PUT",
+        body: pickedStructures,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Production
      * @name ProductionGetMachine
      * @summary Get single machine
      * @request GET:/api/production/machines/{code}
@@ -8537,27 +11050,29 @@ Returns result = true if report OK, false otherwise
      */
     productionListMachines: (
       query?: {
-        "filter.code"?: string;
-        "filter.description"?: string;
+        filterCode?: string;
+        filterDescription?: string;
         /** @format int32 */
-        "filter.type"?: number;
+        filterType?: number;
         /** @format double */
-        "filter.hour_price"?: number;
+        filterHourPrice?: number;
         /** @format double */
-        "filter.capacity"?: number;
-        "filter.is_disabled"?: boolean;
-        "filter.object_ids"?: number[];
+        filterCapacity?: number;
+        filterIsDisabled?: boolean;
+        /** @format int32 */
+        filterGroupId?: number;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -8581,39 +11096,39 @@ Returns result = true if report OK, false otherwise
      */
     projectList: (
       query?: {
-        "filter.project_number"?: number[];
+        filterProjectNumber?: number[];
         /** @format int32 */
-        "filter.project_type"?: number;
+        filterProjectType?: number;
         /** @format int32 */
-        "filter.project_state"?: number;
+        filterProjectState?: number;
         /** @format int32 */
-        "filter.customer_number"?: number;
+        filterCustomerNumber?: number;
         /** @format int32 */
-        "filter.invoicing_customer_id"?: number;
+        filterInvoicingCustomerId?: number;
         /** @format date-time */
-        "filter.created_before"?: string;
+        filterCreatedBefore?: string;
         /** @format date-time */
-        "filter.created_after"?: string;
+        filterCreatedAfter?: string;
         /** @format date-time */
-        "filter.updated_before"?: string;
+        filterUpdatedBefore?: string;
         /** @format date-time */
-        "filter.updated_after"?: string;
-        "filter.states"?: number[];
+        filterUpdatedAfter?: string;
+        filterStates?: number[];
         /** @format int32 */
-        "filter.contact_personnumber"?: number;
-        "filter.show_models"?: boolean;
-        "filter.object_ids"?: number[];
+        filterContactPersonnumber?: number;
+        filterShowModels?: boolean;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -8684,6 +11199,29 @@ Returns result = true if report OK, false otherwise
      * No description
      *
      * @tags Project
+     * @name ProjectUpdatePhase
+     * @summary Update project phase
+     * @request PUT:/api/projects/{projectNumber}/phase
+     * @response `200` `object` OK
+     */
+    projectUpdatePhase: (
+      projectNumber: number,
+      proxyPhase: LemonRestModelsProxyProjectPhase,
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/projects/${projectNumber}/phase`,
+        method: "PUT",
+        body: proxyPhase,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Project
      * @name ProjectCreatePhase
      * @summary Create new project phase
      * @request POST:/api/projects/{projectNumber}/phase
@@ -8730,6 +11268,71 @@ Returns result = true if report OK, false otherwise
      * No description
      *
      * @tags Project
+     * @name ProjectUpdatePhases
+     * @summary Updates project phases for the project based on a list of ProjectPhase
+     * @request PUT:/api/projects/{projectNumber}/phases
+     * @response `200` `object` OK
+     */
+    projectUpdatePhases: (
+      projectNumber: number,
+      proxyPhases: LemonRestModelsProxyProjectPhase[],
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/projects/${projectNumber}/phases`,
+        method: "PUT",
+        body: proxyPhases,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Project
+     * @name ProjectCreatePhases
+     * @summary Creates new project phases for the project based on a list of ProjectPhase
+     * @request POST:/api/projects/{projectNumber}/phases
+     * @response `200` `object` OK
+     */
+    projectCreatePhases: (
+      projectNumber: number,
+      proxyPhases: LemonRestModelsProxyProjectPhase[],
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/projects/${projectNumber}/phases`,
+        method: "POST",
+        body: proxyPhases,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Project
+     * @name ProjectDeletePhases
+     * @summary Deletes project phases from the project based on a list of ProjectPhase Ids
+     * @request DELETE:/api/projects/{projectNumber}/phases
+     * @response `200` `object` OK
+     */
+    projectDeletePhases: (projectNumber: number, projectPhaseIds: number[], params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/projects/${projectNumber}/phases`,
+        method: "DELETE",
+        body: projectPhaseIds,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Project
      * @name ProjectCreatePhaseContact
      * @summary Create new project phase contact
      * @request POST:/api/projects/phase/contact
@@ -8765,32 +11368,32 @@ Returns result = true if report OK, false otherwise
     purchaseInvoiceList: (
       query?: {
         /** @format int32 */
-        "filter.invoice_type"?: number;
+        filterInvoiceType?: number;
         /** @format int32 */
-        "filter.invoice_state"?: number;
+        filterInvoiceState?: number;
         /** @format int32 */
-        "filter.customer_number"?: number;
-        "filter.description"?: string;
+        filterCustomerNumber?: number;
+        filterDescription?: string;
         /** @format date-time */
-        "filter.created_before"?: string;
+        filterCreatedBefore?: string;
         /** @format date-time */
-        "filter.created_after"?: string;
+        filterCreatedAfter?: string;
         /** @format date-time */
-        "filter.updated_before"?: string;
+        filterUpdatedBefore?: string;
         /** @format date-time */
-        "filter.updated_after"?: string;
-        "filter.object_ids"?: number[];
+        filterUpdatedAfter?: string;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -8870,6 +11473,49 @@ Returns result = true if report OK, false otherwise
       this.request<object, any>({
         path: `/api/purchase-invoice/${invoiceNumber}`,
         method: "DELETE",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description This endpoint accepts file uploads where the Content-type is set to multipart/form-data. For example, use FormData when sending requests from JavaScript (https://developer.mozilla.org/en-US/docs/Web/API/FormData), or MultipartFormDataContent in C# (https://learn.microsoft.com/en-us/dotnet/api/system.net.http.multipartformdatacontent?view=net-7.0) Supported file types and their corresponding MIME content types: - PDF (application/pdf) - JPEG (image/jpeg) - PNG (image/png) - GIF (image/gif) - BMP (image/bmp) Remember to set Content-type header when sending requests to this endpoint
+     *
+     * @tags PurchaseInvoice
+     * @name PurchaseInvoiceCreateAttachment
+     * @summary Add image to purchase invoice
+     * @request POST:/api/purchase-invoice/{invoiceNumber}/attachments
+     * @response `200` `object` OK
+     */
+    purchaseInvoiceCreateAttachment: (
+      invoiceNumber: number,
+      data: {
+        /** Attachment to upload */
+        attachment: File;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/purchase-invoice/${invoiceNumber}/attachments`,
+        method: "POST",
+        body: data,
+        type: ContentType.FormData,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Use this endpoint to check if invoice has already been moved to accounting and has been locked.
+     *
+     * @tags PurchaseInvoice
+     * @name PurchaseInvoiceGetReadOnlyState
+     * @summary Get invoice's locked state
+     * @request GET:/api/purchase-invoice/{invoiceNumber}/locked
+     * @response `200` `object` OK
+     */
+    purchaseInvoiceGetReadOnlyState: (invoiceNumber: number, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/purchase-invoice/${invoiceNumber}/locked`,
+        method: "GET",
         format: "json",
         ...params,
       }),
@@ -9057,34 +11703,35 @@ Returns result = true if report OK, false otherwise
     purchaseOrderList: (
       query?: {
         /** @format int32 */
-        "filter.state"?: number;
+        filterState?: number;
         /** @format int32 */
-        "filter.customer_number"?: number;
+        filterCustomerNumber?: number;
         /** @format int32 */
-        "filter.type"?: number;
+        filterType?: number;
         /** @format date-time */
-        "filter.ordered_before"?: string;
+        filterOrderedBefore?: string;
         /** @format date-time */
-        "filter.ordered_after"?: string;
-        "filter.order_numbers"?: number[];
+        filterOrderedAfter?: string;
+        filterOrderNumbers?: number[];
         /** @format date-time */
-        "filter.updated_before"?: string;
+        filterUpdatedBefore?: string;
         /** @format date-time */
-        "filter.updated_after"?: string;
-        "filter.only_allowed_types"?: boolean;
-        "filter.sort_desc"?: boolean;
-        "filter.object_ids"?: number[];
+        filterUpdatedAfter?: string;
+        filterOnlyAllowedTypes?: boolean;
+        filterSkipModels?: boolean;
+        filterSortDesc?: boolean;
+        filterObjectIds?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
-        "filter.search"?: string;
+        filterPageSize?: number;
+        filterSearch?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -9292,6 +11939,149 @@ Returns result = true if report OK, false otherwise
         ...params,
       }),
   };
+  salary = {
+    /**
+     * No description
+     *
+     * @tags Salary
+     * @name SalaryList
+     * @summary Get a list of project's salaries
+     * @request GET:/api/salary/project/{project_number}
+     * @response `200` `object` OK
+     */
+    salaryList: (
+      projectNumber: number,
+      query?: {
+        /**
+         * start date for queried salaries. If a start date is not provided, it defaults to one year prior to the current date
+         * @format date-time
+         */
+        start_date?: string;
+        /**
+         * end date for queried salaries. If a date is not provided, the current date is used as the default.
+         * @format date-time
+         */
+        end_date?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/salary/project/${projectNumber}`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Salary
+     * @name SalaryList2
+     * @summary Get a list of form of salaries
+     * @request GET:/api/salary/form_of_salary
+     * @originalName salaryList
+     * @duplicate
+     * @response `200` `object` OK
+     */
+    salaryList2: (
+      query?: {
+        /**
+         * filter form of salaries by id
+         * @format int32
+         */
+        id?: number;
+        /**
+         * filter form of salaries by number
+         * @format int32
+         */
+        number?: number;
+        /** filter form of salaries by description */
+        description?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/salary/form_of_salary`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Salary
+     * @name SalaryGetSalaries
+     * @summary Get all the person's salaries
+     * @request GET:/api/salary/salaries
+     * @response `200` `object` OK
+     */
+    salaryGetSalaries: (
+      query?: {
+        /**
+         * Person number filter
+         * @format int32
+         */
+        filterPersonNumber?: number;
+        /** Only approved salaries */
+        filterOnlyApproved?: boolean;
+        filterObjectIds?: number[];
+        /**
+         * Page number. If not provided, using default value of 1
+         * @format int32
+         */
+        filterPage?: number;
+        /**
+         * Page size. If not provided, using default value of 10
+         * @format int32
+         */
+        filterPageSize?: number;
+        filterSearch?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/salary/salaries`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Salary
+     * @name SalaryGetCumulativeSumSalary
+     * @summary Fetches the cumulative balances of a person's salaries since the beginning of the year
+     * @request GET:/api/salary/cumulative
+     * @response `200` `object` OK
+     */
+    salaryGetCumulativeSumSalary: (
+      query?: {
+        /**
+         * Henkilönumero
+         * @format int32
+         */
+        filterPersonNumber?: number;
+        /**
+         * Ennen pvm
+         * @format date-time
+         */
+        filterBefore?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/salary/cumulative`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+  };
   settings = {
     /**
      * No description
@@ -9378,13 +12168,13 @@ Returns result = true if report OK, false otherwise
     settingsGetCostCenters: (
       query?: {
         /** @format int32 */
-        "filter.level"?: number;
-        "filter.search"?: string;
-        "filter.also_passives"?: boolean;
+        filterLevel?: number;
+        filterSearch?: string;
+        filterAlsoPassives?: boolean;
         /** @format int32 */
-        "filter.page"?: number;
+        filterPage?: number;
         /** @format int32 */
-        "filter.page_size"?: number;
+        filterPageSize?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -9411,17 +12201,49 @@ Returns result = true if report OK, false otherwise
          * If not defined, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * If not defined, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
+        filterPageSize?: number;
       },
       params: RequestParams = {},
     ) =>
       this.request<object, any>({
         path: `/api/settings/costcenters/levels`,
+        method: "GET",
+        query: query,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Settings
+     * @name SettingsGetCostCenterSuggestion
+     * @summary Get suggested costcenter
+     * @request GET:/api/settings/costcenters/suggestion
+     * @response `200` `object` OK
+     */
+    settingsGetCostCenterSuggestion: (
+      query?: {
+        /**
+         * Form of salary number
+         * @format int32
+         */
+        filterFormofsalary?: number;
+        /**
+         * Person number
+         * @format int32
+         */
+        filterPerson?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<object, any>({
+        path: `/api/settings/costcenters/suggestion`,
         method: "GET",
         query: query,
         format: "json",
@@ -9439,17 +12261,17 @@ Returns result = true if report OK, false otherwise
      */
     settingsGetLtas: (
       query?: {
-        "filter.also_passives"?: boolean;
+        filterAlsoPassives?: boolean;
         /**
          * If not defined, using default value of 1
          * @format int32
          */
-        "filter.page"?: number;
+        filterPage?: number;
         /**
          * If not defined, using default value of 10
          * @format int32
          */
-        "filter.page_size"?: number;
+        filterPageSize?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -9730,6 +12552,23 @@ Returns result = true if report OK, false otherwise
      * No description
      *
      * @tags Settings
+     * @name SettingsGetStocksWrite
+     * @summary Get stocks which person has rights to write
+     * @request GET:/api/settings/products/stocks/write
+     * @response `200` `object` OK
+     */
+    settingsGetStocksWrite: (params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/settings/products/stocks/write`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Settings
      * @name SettingsGetStockShelves
      * @summary Get all the shelves in the stock
      * @request GET:/api/settings/stocks/{stock}/shelves
@@ -9963,6 +12802,57 @@ Returns result = true if report OK, false otherwise
         format: "json",
         ...params,
       }),
+
+    /**
+     * No description
+     *
+     * @tags Settings
+     * @name SettingsGetExpenseTypes
+     * @summary Get expense types
+     * @request GET:/api/settings/expense_types/{languageCode}
+     * @response `200` `object` OK
+     */
+    settingsGetExpenseTypes: (languageCode: string, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/settings/expense_types/${languageCode}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Settings
+     * @name SettingsGetPayrollTaxTypes
+     * @summary Get payroll tax types
+     * @request GET:/api/settings/payroll_tax_types/{languageCode}
+     * @response `200` `object` OK
+     */
+    settingsGetPayrollTaxTypes: (languageCode: string, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/settings/payroll_tax_types/${languageCode}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Settings
+     * @name SettingsIsCompanyRegisteredLemonHub
+     * @summary Check if company is registered to lemonhub
+     * @request GET:/api/settings/lemonhub/registered
+     * @response `200` `object` OK
+     */
+    settingsIsCompanyRegisteredLemonHub: (params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/settings/lemonhub/registered`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
   };
   stocks = {
     /**
@@ -9977,9 +12867,9 @@ Returns result = true if report OK, false otherwise
     stockStocks: (
       query?: {
         /** @format date-time */
-        "filter.modified_before"?: string;
+        filterModifiedBefore?: string;
         /** @format date-time */
-        "filter.modified_after"?: string;
+        filterModifiedAfter?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -10006,6 +12896,25 @@ Returns result = true if report OK, false otherwise
         path: `/api/travelexpenses`,
         method: "POST",
         body: proxyExpenses,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags TravelExpense
+     * @name TravelExpenseCreateSummary
+     * @summary Create travel expense summary
+     * @request POST:/api/travelexpenses/summary
+     * @response `200` `object` OK
+     */
+    travelExpenseCreateSummary: (proxy: LemonRestModelsProxyGlobalTravelExpenseSummary, params: RequestParams = {}) =>
+      this.request<object, any>({
+        path: `/api/travelexpenses/summary`,
+        method: "POST",
+        body: proxy,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -10043,10 +12952,18 @@ Returns result = true if report OK, false otherwise
      * @request POST:/api/v1/auth/login/token
      * @response `200` `object` OK
      */
-    v1AuthenticationLogInToken: (login_token: LemonRestModelsLogInTokenInstanceDatabase, params: RequestParams = {}) =>
+    v1AuthenticationLogInToken: (
+      login_token: LemonRestModelsLogInTokenInstanceDatabase,
+      query?: {
+        /** True for userflow login, false for customflow login */
+        useUserFlow?: boolean;
+      },
+      params: RequestParams = {},
+    ) =>
       this.request<object, any>({
         path: `/api/v1/auth/login/token`,
         method: "POST",
+        query: query,
         body: login_token,
         type: ContentType.Json,
         format: "json",
