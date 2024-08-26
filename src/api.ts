@@ -4987,8 +4987,7 @@ export interface MicrosoftAspNetCoreJsonPatchOperationsOperationLemonRestModelsP
   from?: string;
 }
 
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
-import axios from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, HeadersDefaults, ResponseType } from "axios";
 
 export type QueryParamsType = Record<string | number, any>;
 
@@ -5215,32 +5214,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     campaignList: (
       query?: {
         /** @format int32 */
-        filterCampaignType?: number;
+        "filter.campaign_type"?: number;
         /** @format int32 */
-        filterCampaignState?: number;
+        "filter.campaign_state"?: number;
         /** @format int32 */
-        filterResponsiblePerson?: number;
+        "filter.responsible_person"?: number;
         /** @format date-time */
-        filterCampaignCreatedBefore?: string;
+        "filter.campaign_created_before"?: string;
         /** @format date-time */
-        filterCampaignCreatedAfter?: string;
-        filterCampaignDescription?: string;
+        "filter.campaign_created_after"?: string;
+        "filter.campaign_description"?: string;
         /** @format date-time */
-        filterUpdatedBefore?: string;
+        "filter.updated_before"?: string;
         /** @format date-time */
-        filterUpdatedAfter?: string;
-        filterObjectIds?: number[];
+        "filter.updated_after"?: string;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -5436,8 +5435,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     codelistList: (
       query: {
-        filterName?: string;
-        filterCodeListFilter:
+        "filter.name"?: string;
+        "filter.codeListFilter":
           | "ABC_GROUPS"
           | "AREAS"
           | "BUSINESS_ACTIVITY_AREACODES"
@@ -5458,7 +5457,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
           | "INVOICE_METHODS"
           | "EXPENSE_GROUPS"
           | "ACCOUNT_TYPES";
-        filterObjectIds?: number[];
+        "filter.object_ids"?: number[];
       },
       params: RequestParams = {},
     ) =>
@@ -5501,24 +5500,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       customerId: number,
       query?: {
         /** Contact name [CONTAINS] */
-        filterName?: string;
-        filterEmail?: string;
+        "filter.name"?: string;
+        "filter.email"?: string;
         /** @format date-time */
-        filterModifiedBefore?: string;
+        "filter.modified_before"?: string;
         /** @format date-time */
-        filterModifiedAfter?: string;
-        filterObjectIds?: number[];
+        "filter.modified_after"?: string;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -5580,44 +5579,44 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     customerList: (
       query?: {
-        filterName?: string;
-        filterSearchName?: string;
-        filterEmail?: string;
-        filterVat?: string;
+        "filter.name"?: string;
+        "filter.search_name"?: string;
+        "filter.email"?: string;
+        "filter.vat"?: string;
         /** @format date-time */
-        filterModifiedBefore?: string;
+        "filter.modified_before"?: string;
         /** @format date-time */
-        filterModifiedAfter?: string;
+        "filter.modified_after"?: string;
         /** @format int32 */
-        filterHasEmail?: number;
+        "filter.has_email"?: number;
         /** @format int32 */
-        filterIsCustomer?: number;
+        "filter.is_customer"?: number;
         /** @format int32 */
-        filterIsSupplier?: number;
-        filterCustomerNumber?: number[];
+        "filter.is_supplier"?: number;
+        "filter.customer_number"?: number[];
         /** @format int32 */
-        filterGroup?: number;
+        "filter.group"?: number;
         /** @format date-time */
-        filterCreatedBefore?: string;
+        "filter.created_before"?: string;
         /** @format date-time */
-        filterCreatedAfter?: string;
+        "filter.created_after"?: string;
         /** @format date-time */
-        filterUpdatedBefore?: string;
+        "filter.updated_before"?: string;
         /** @format date-time */
-        filterUpdatedAfter?: string;
-        filterAttributeIds?: number[];
-        filterObjectIds?: number[];
+        "filter.updated_after"?: string;
+        "filter.attribute_ids"?: number[];
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -5659,44 +5658,44 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     customerListBase: (
       query?: {
-        filterName?: string;
-        filterSearchName?: string;
-        filterEmail?: string;
-        filterVat?: string;
+        "filter.name"?: string;
+        "filter.search_name"?: string;
+        "filter.email"?: string;
+        "filter.vat"?: string;
         /** @format date-time */
-        filterModifiedBefore?: string;
+        "filter.modified_before"?: string;
         /** @format date-time */
-        filterModifiedAfter?: string;
+        "filter.modified_after"?: string;
         /** @format int32 */
-        filterHasEmail?: number;
+        "filter.has_email"?: number;
         /** @format int32 */
-        filterIsCustomer?: number;
+        "filter.is_customer"?: number;
         /** @format int32 */
-        filterIsSupplier?: number;
-        filterCustomerNumber?: number[];
+        "filter.is_supplier"?: number;
+        "filter.customer_number"?: number[];
         /** @format int32 */
-        filterGroup?: number;
+        "filter.group"?: number;
         /** @format date-time */
-        filterCreatedBefore?: string;
+        "filter.created_before"?: string;
         /** @format date-time */
-        filterCreatedAfter?: string;
+        "filter.created_after"?: string;
         /** @format date-time */
-        filterUpdatedBefore?: string;
+        "filter.updated_before"?: string;
         /** @format date-time */
-        filterUpdatedAfter?: string;
-        filterAttributeIds?: number[];
-        filterObjectIds?: number[];
+        "filter.updated_after"?: string;
+        "filter.attribute_ids"?: number[];
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -5877,35 +5876,35 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     customerListTransaction: (
       query?: {
         /** @format int32 */
-        filterType?: number;
+        "filter.type"?: number;
         /** @format int32 */
-        filterState?: number;
+        "filter.state"?: number;
         /** @format int32 */
-        filterCustomerNumber?: number;
+        "filter.customer_number"?: number;
         /** @format date-time */
-        filterTransactionDateBefore?: string;
+        "filter.transaction_date_before"?: string;
         /** @format date-time */
-        filterTransactionDateAfter?: string;
+        "filter.transaction_date_after"?: string;
         /** @format int32 */
-        filterPersonNumber?: number;
+        "filter.person_number"?: number;
         /** @format int32 */
-        filterTodoPersonNumber?: number;
+        "filter.todo_person_number"?: number;
         /** @format int32 */
-        filterProjectNumber?: number;
+        "filter.project_number"?: number;
         /** @format int32 */
-        filterCustomerContactId?: number;
-        filterObjectIds?: number[];
+        "filter.customer_contact_id"?: number;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -6107,21 +6106,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     customerListGroups: (
       query?: {
-        filterName?: string;
+        "filter.name"?: string;
         /** @format int32 */
-        filterParentId?: number;
-        filterObjectIds?: number[];
+        "filter.parent_id"?: number;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -6163,8 +6162,8 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     fileGetFiles: (
       query?: {
         /** @format int32 */
-        filterApplicationId?: number;
-        filterSearch?: string;
+        "filter.application_id"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -6279,33 +6278,33 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     invoiceList: (
       query?: {
-        filterNumbers?: number[];
+        "filter.numbers"?: number[];
         /** @format int32 */
-        filterCustomerNumber?: number;
+        "filter.customer_number"?: number;
         /** @format int32 */
-        filterDeliveryCustomerNumber?: number;
+        "filter.delivery_customer_number"?: number;
         /** @format int32 */
-        filterType?: number;
+        "filter.type"?: number;
         /** @format date-time */
-        filterInvoiceDateBefore?: string;
+        "filter.invoice_date_before"?: string;
         /** @format date-time */
-        filterInvoiceDateAfter?: string;
+        "filter.invoice_date_after"?: string;
         /** @format date-time */
-        filterUpdatedBefore?: string;
+        "filter.updated_before"?: string;
         /** @format date-time */
-        filterUpdatedAfter?: string;
-        filterObjectIds?: number[];
+        "filter.updated_after"?: string;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -6658,12 +6657,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * If not defined, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * If not defined, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
+        "filter.page_size"?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -6810,12 +6809,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * If not defined, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * If not defined, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
+        "filter.page_size"?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -6839,7 +6838,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     numberSeriesList: (
       query: {
-        filterNumberSeries: "invoice";
+        "filter.numberSeries": "invoice";
       },
       params: RequestParams = {},
     ) =>
@@ -6906,31 +6905,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     offerList: (
       query?: {
         /** @format int32 */
-        filterCustomerNumber?: number;
+        "filter.customer_number"?: number;
         /** @format int32 */
-        filterDeliveryCustomerNumber?: number;
+        "filter.delivery_customer_number"?: number;
         /** @format date-time */
-        filterOfferDateBefore?: string;
+        "filter.offer_date_before"?: string;
         /** @format date-time */
-        filterOfferDateAfter?: string;
+        "filter.offer_date_after"?: string;
         /** @format date-time */
-        filterUpdatedBefore?: string;
+        "filter.updated_before"?: string;
         /** @format date-time */
-        filterUpdatedAfter?: string;
-        filterIncludeOldVersions?: boolean;
-        filterOfferNumbers?: number[];
-        filterObjectIds?: number[];
+        "filter.updated_after"?: string;
+        "filter.include_old_versions"?: boolean;
+        "filter.offer_numbers"?: number[];
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -7161,37 +7160,37 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     orderList: (
       query?: {
         /** @format int32 */
-        filterType?: number;
-        filterState?: number[];
+        "filter.type"?: number;
+        "filter.state"?: number[];
         /** @format int32 */
-        filterCustomerNumber?: number;
+        "filter.customer_number"?: number;
         /** @format int32 */
-        filterDeliveryCustomerNumber?: number;
-        filterOrderNumbers?: number[];
+        "filter.delivery_customer_number"?: number;
+        "filter.order_numbers"?: number[];
         /** @format date-time */
-        filterOrderedBefore?: string;
+        "filter.ordered_before"?: string;
         /** @format date-time */
-        filterOrderedAfter?: string;
+        "filter.ordered_after"?: string;
         /** @format date-time */
-        filterUpdatedBefore?: string;
+        "filter.updated_before"?: string;
         /** @format date-time */
-        filterUpdatedAfter?: string;
-        filterOnlyAllowedTypes?: boolean;
-        filterSkipService?: boolean;
-        filterSortDesc?: boolean;
-        filterOnlyModels?: boolean;
-        filterObjectIds?: number[];
+        "filter.updated_after"?: string;
+        "filter.only_allowed_types"?: boolean;
+        "filter.skip_service"?: boolean;
+        "filter.sort_desc"?: boolean;
+        "filter.only_models"?: boolean;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -7516,18 +7515,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     orderGetServiceInstructions: (
       query?: {
-        filterObjectIds?: number[];
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -7923,31 +7922,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     personGetPersons: (
       query?: {
         /** @format date-time */
-        filterCreatedBefore?: string;
+        "filter.created_before"?: string;
         /** @format date-time */
-        filterCreatedAfter?: string;
+        "filter.created_after"?: string;
         /** @format date-time */
-        filterUpdatedBefore?: string;
+        "filter.updated_before"?: string;
         /** @format date-time */
-        filterUpdatedAfter?: string;
+        "filter.updated_after"?: string;
         /** @format int32 */
-        filterRole?: number;
-        filterCostcenter?: string;
-        filterHideModels?: boolean;
+        "filter.role"?: number;
+        "filter.costcenter"?: string;
+        "filter.hide_models"?: boolean;
         /** @format int32 */
-        filterNumber?: number;
-        filterObjectIds?: number[];
+        "filter.number"?: number;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -8022,32 +8021,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     personList: (
       query?: {
         /** @format int32 */
-        filterPersonNumber?: number;
-        filterStates?: number[];
-        filterJobTypes?: number[];
+        "filter.person_number"?: number;
+        "filter.states"?: number[];
+        "filter.job_types"?: number[];
         /** @format int32 */
-        filterCompanyLocation?: number;
+        "filter.company_location"?: number;
         /** @format int32 */
-        filterDepartment?: number;
-        filterCostcenter?: string;
+        "filter.department"?: number;
+        "filter.costcenter"?: string;
         /** @format int32 */
-        filterProjectType?: number;
+        "filter.project_type"?: number;
         /** @format date-time */
-        filterAfter?: string;
+        "filter.after"?: string;
         /** @format date-time */
-        filterBefore?: string;
-        filterObjectIds?: number[];
+        "filter.before"?: string;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -8283,24 +8282,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     personGetWorkHours: (
       query?: {
         /** @format date-time */
-        filterDateBefore?: string;
+        "filter.date_before"?: string;
         /** @format date-time */
-        filterDateAfter?: string;
-        filterStates?: number[];
+        "filter.date_after"?: string;
+        "filter.states"?: number[];
         /** @format int32 */
-        filterJobId?: number;
-        filterObjectIds?: number[];
+        "filter.job_id"?: number;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -8397,19 +8396,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       id: number,
       query?: {
         /** @format int32 */
-        filterProductType?: number;
-        filterObjectIds?: number[];
+        "filter.product_type"?: number;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -8536,32 +8535,32 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     personGetWorkTimes: (
       query?: {
         /** @format date-time */
-        filterCreatedBefore?: string;
+        "filter.created_before"?: string;
         /** @format date-time */
-        filterCreatedAfter?: string;
+        "filter.created_after"?: string;
         /** @format date-time */
-        filterUpdatedBefore?: string;
+        "filter.updated_before"?: string;
         /** @format date-time */
-        filterUpdatedAfter?: string;
+        "filter.updated_after"?: string;
         /** @format date-time */
-        filterDateBefore?: string;
+        "filter.date_before"?: string;
         /** @format date-time */
-        filterDateAfter?: string;
-        filterStates?: number[];
+        "filter.date_after"?: string;
+        "filter.states"?: number[];
         /** @format int32 */
-        filterJobId?: number;
-        filterObjectIds?: number[];
+        "filter.job_id"?: number;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -8658,19 +8657,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       id: number,
       query?: {
         /** @format int32 */
-        filterProductType?: number;
-        filterObjectIds?: number[];
+        "filter.product_type"?: number;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -8836,24 +8835,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     personGetPersonAbsenceList: (
       query?: {
         /** @format int32 */
-        filterPersonNumber?: number;
-        filterStates?: number[];
+        "filter.person_number"?: number;
+        "filter.states"?: number[];
         /** @format date-time */
-        filterAfter?: string;
+        "filter.after"?: string;
         /** @format date-time */
-        filterBefore?: string;
-        filterObjectIds?: number[];
+        "filter.before"?: string;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -8932,23 +8931,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     personGetPlannedShifts: (
       query?: {
         /** @format date-time */
-        filterDateBefore?: string;
+        "filter.date_before"?: string;
         /** @format date-time */
-        filterDateAfter?: string;
-        filterPersons?: number[];
-        filterPersonGroups?: number[];
-        filterObjectIds?: number[];
+        "filter.date_after"?: string;
+        "filter.persons"?: number[];
+        "filter.person_groups"?: number[];
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -8972,11 +8971,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     personGetWorktimeFosSummary: (
       query?: {
         /** @format int32 */
-        filterPerson?: number;
+        "filter.person"?: number;
         /** @format date-time */
-        filterStart?: string;
+        "filter.start"?: string;
         /** @format date-time */
-        filterEnd?: string;
+        "filter.end"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -9018,9 +9017,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       personNumber: number,
       query?: {
         /** @format date-time */
-        filterStart?: string;
+        "filter.start"?: string;
         /** @format date-time */
-        filterEnd?: string;
+        "filter.end"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -9066,19 +9065,19 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     pricelistList: (
       query?: {
-        filterName?: string;
-        filterObjectIds?: number[];
+        "filter.name"?: string;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -9147,14 +9146,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * Date when pricelist should be valid
          * @format date-time
          */
-        filterListValidDate: string;
+        "filter.list_valid_date": string;
         /** Product unit */
-        filterProductUnit?: string;
+        "filter.product_unit"?: string;
         /**
          * Customer number
          * @format int32
          */
-        filterCustNo?: number;
+        "filter.cust_no"?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -9452,47 +9451,47 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     productList: (
       query?: {
-        filterName?: string;
-        filterSku?: string[];
-        filterEan?: string[];
+        "filter.name"?: string;
+        "filter.sku"?: string[];
+        "filter.ean"?: string[];
         /** @format date-time */
-        filterModifiedBefore?: string;
+        "filter.modified_before"?: string;
         /** @format date-time */
-        filterModifiedAfter?: string;
+        "filter.modified_after"?: string;
         /** @format int32 */
-        filterAttributeId?: number;
-        filterExtraName?: string;
+        "filter.attribute_id"?: number;
+        "filter.extra_name"?: string;
         /** @format int32 */
-        filterCategoryId?: number;
-        filterGroupCode?: string;
-        filterShowModels?: boolean;
-        filterShowNonactive?: boolean;
-        filterShowNonstock?: boolean;
-        filterShelf?: string;
+        "filter.category_id"?: number;
+        "filter.group_code"?: string;
+        "filter.show_models"?: boolean;
+        "filter.show_nonactive"?: boolean;
+        "filter.show_nonstock"?: boolean;
+        "filter.shelf"?: string;
         /** @format int32 */
-        filterShelfStock?: number;
+        "filter.shelf_stock"?: number;
         /** @format int32 */
-        filterStock?: number;
-        filterSortBySku?: boolean;
-        filterSearchWords?: string[];
+        "filter.stock"?: number;
+        "filter.sort_by_sku"?: boolean;
+        "filter.search_words"?: string[];
         /** Vain myytävät tuotteet */
-        filterIsSales?: boolean;
+        "filter.is_sales"?: boolean;
         /** Vain ostettavat tuotteet */
-        filterIsPurchase?: boolean;
+        "filter.is_purchase"?: boolean;
         /** Vain saldolliset */
-        filterOnlyWithBalance?: boolean;
-        filterObjectIds?: number[];
+        "filter.only_with_balance"?: boolean;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -9629,22 +9628,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     productListGroups: (
       query?: {
-        filterName?: string;
-        filterWebOnly?: boolean;
+        "filter.name"?: string;
+        "filter.web_only"?: boolean;
         /** @format int32 */
-        filterParentId?: number;
-        filterObjectIds?: number[];
+        "filter.parent_id"?: number;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -9667,22 +9666,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     productListCategories: (
       query?: {
-        filterName?: string;
-        filterWebOnly?: boolean;
+        "filter.name"?: string;
+        "filter.web_only"?: boolean;
         /** @format int32 */
-        filterParentId?: number;
-        filterObjectIds?: number[];
+        "filter.parent_id"?: number;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -9706,23 +9705,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     productGetProductSerialNumbers: (
       productCode: string,
       query?: {
-        filterSerialCode?: string;
+        "filter.serial_code"?: string;
         /** @format int32 */
-        filterStock?: number;
-        filterInStock?: boolean;
-        filterOnlyEmpty?: boolean;
-        filterObjectIds?: number[];
+        "filter.stock"?: number;
+        "filter.in_stock"?: boolean;
+        "filter.only_empty"?: boolean;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -9746,23 +9745,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     productGetProductBatchs: (
       productCode: string,
       query?: {
-        filterSupplierCode?: string;
+        "filter.supplier_code"?: string;
         /** @format int32 */
-        filterStock?: number;
-        filterInStock?: boolean;
-        filterShelf?: string;
-        filterObjectIds?: number[];
+        "filter.stock"?: number;
+        "filter.in_stock"?: boolean;
+        "filter.shelf"?: string;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -9838,47 +9837,47 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     productGetProductBaseList: (
       query?: {
-        filterName?: string;
-        filterSku?: string[];
-        filterEan?: string[];
+        "filter.name"?: string;
+        "filter.sku"?: string[];
+        "filter.ean"?: string[];
         /** @format date-time */
-        filterModifiedBefore?: string;
+        "filter.modified_before"?: string;
         /** @format date-time */
-        filterModifiedAfter?: string;
+        "filter.modified_after"?: string;
         /** @format int32 */
-        filterAttributeId?: number;
-        filterExtraName?: string;
+        "filter.attribute_id"?: number;
+        "filter.extra_name"?: string;
         /** @format int32 */
-        filterCategoryId?: number;
-        filterGroupCode?: string;
-        filterShowModels?: boolean;
-        filterShowNonactive?: boolean;
-        filterShowNonstock?: boolean;
-        filterShelf?: string;
+        "filter.category_id"?: number;
+        "filter.group_code"?: string;
+        "filter.show_models"?: boolean;
+        "filter.show_nonactive"?: boolean;
+        "filter.show_nonstock"?: boolean;
+        "filter.shelf"?: string;
         /** @format int32 */
-        filterShelfStock?: number;
+        "filter.shelf_stock"?: number;
         /** @format int32 */
-        filterStock?: number;
-        filterSortBySku?: boolean;
-        filterSearchWords?: string[];
+        "filter.stock"?: number;
+        "filter.sort_by_sku"?: boolean;
+        "filter.search_words"?: string[];
         /** Vain myytävät tuotteet */
-        filterIsSales?: boolean;
+        "filter.is_sales"?: boolean;
         /** Vain ostettavat tuotteet */
-        filterIsPurchase?: boolean;
+        "filter.is_purchase"?: boolean;
         /** Vain saldolliset */
-        filterOnlyWithBalance?: boolean;
-        filterObjectIds?: number[];
+        "filter.only_with_balance"?: boolean;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -10024,17 +10023,17 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
          * If not defined, using default value 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * If not defined, using default value 10
          * @format int32
          */
-        filterPageSize?: number;
+        "filter.page_size"?: number;
         /**
          * Timestamp after product saldo should have changed
          * @format date-time
          */
-        filterUpdatedAfter: string;
+        "filter.updated_after": string;
       },
       params: RequestParams = {},
     ) =>
@@ -10076,9 +10075,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     productGetStructure: (
       query?: {
-        filterProductCode?: string;
+        "filter.product_code"?: string;
         /** @format int32 */
-        filterWorkNumber?: number;
+        "filter.work_number"?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -10266,20 +10265,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     productGetCollectJobs: (
       query?: {
         /** @format int32 */
-        filterPersonNumber?: number;
-        filterStates?: number[];
-        filterObjectIds?: number[];
+        "filter.person_number"?: number;
+        "filter.states"?: number[];
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -10498,31 +10497,31 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     productGetTransactions: (
       query?: {
         /** @format int32 */
-        filterId?: number;
-        filterProductCode?: string;
+        "filter.id"?: number;
+        "filter.product_code"?: string;
         /** @format int32 */
-        filterStockNumber?: number;
+        "filter.stock_number"?: number;
         /** @format date-time */
-        filterModifiedBefore?: string;
+        "filter.modified_before"?: string;
         /** @format date-time */
-        filterModifiedAfter?: string;
+        "filter.modified_after"?: string;
         /** @format date-time */
-        filterTransactionDateBefore?: string;
+        "filter.transaction_date_before"?: string;
         /** @format date-time */
-        filterTransactionDateAfter?: string;
+        "filter.transaction_date_after"?: string;
         /** @format int32 */
-        filterPage?: number;
+        "filter.page"?: number;
         /** @format int32 */
-        filterPageSize?: number;
+        "filter.page_size"?: number;
         /** @format int32 */
-        filterType?: number;
+        "filter.type"?: number;
         /** @format int32 */
-        filterSource?: number;
-        filterSearch?: string;
+        "filter.source"?: number;
+        "filter.search"?: string;
         /** @format int32 */
-        filterPerson?: number;
+        "filter.person"?: number;
         /** @format int32 */
-        filterWorkNumber?: number;
+        "filter.work_number"?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -10566,21 +10565,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     productionGetChangedMainWorkStages: (
       query: {
         /** @format date-time */
-        filterUpdatedAfter: string;
+        "filter.updated_after": string;
         /** @format date-time */
-        filterUpdatedBefore: string;
+        "filter.updated_before": string;
         /** @format int32 */
-        filterState?: number;
+        "filter.state"?: number;
         /**
          * If not defined, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * If not defined, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
+        "filter.page_size"?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -10627,20 +10626,20 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     productionGetMainWorkStages: (
       query?: {
-        filterProductCode?: string;
+        "filter.product_code"?: string;
         /** @format int32 */
-        filterWorknumber?: number;
+        "filter.worknumber"?: number;
         /** @format int32 */
-        filterId?: number;
+        "filter.id"?: number;
         /** @format int32 */
-        filterMainStructureId?: number;
+        "filter.main_structure_id"?: number;
         /** @format int32 */
-        filterSubStructureId?: number;
-        filterProductDescription?: string;
+        "filter.sub_structure_id"?: number;
+        "filter.product_description"?: string;
         /** @format int32 */
-        filterPage?: number;
+        "filter.page"?: number;
         /** @format int32 */
-        filterPageSize?: number;
+        "filter.page_size"?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -10719,30 +10718,30 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      */
     productionGetSubWorkStages: (
       query?: {
-        filterOnlyStartable?: boolean;
+        "filter.only_startable"?: boolean;
         /** @format date-time */
-        filterAfterDate?: string;
+        "filter.after_date"?: string;
         /** @format date-time */
-        filterBeforeDate?: string;
-        filterStates?: number[];
+        "filter.before_date"?: string;
+        "filter.states"?: number[];
         /** @format int32 */
-        filterPerson?: number;
-        filterReadMaterials?: boolean;
-        filterWorknumbers?: number[];
+        "filter.person"?: number;
+        "filter.read_materials"?: boolean;
+        "filter.worknumbers"?: number[];
         /** Should sub_workstage_rowtype = 9 (in compilation) jobs be included. */
-        filterShowInCompilation?: boolean;
-        filterObjectIds?: number[];
+        "filter.show_in_compilation"?: boolean;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -11050,29 +11049,29 @@ Returns result = true if report OK, false otherwise
      */
     productionListMachines: (
       query?: {
-        filterCode?: string;
-        filterDescription?: string;
+        "filter.code"?: string;
+        "filter.description"?: string;
         /** @format int32 */
-        filterType?: number;
+        "filter.type"?: number;
         /** @format double */
-        filterHourPrice?: number;
+        "filter.hour_price"?: number;
         /** @format double */
-        filterCapacity?: number;
-        filterIsDisabled?: boolean;
+        "filter.capacity"?: number;
+        "filter.is_disabled"?: boolean;
         /** @format int32 */
-        filterGroupId?: number;
-        filterObjectIds?: number[];
+        "filter.group_id"?: number;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -11096,39 +11095,39 @@ Returns result = true if report OK, false otherwise
      */
     projectList: (
       query?: {
-        filterProjectNumber?: number[];
+        "filter.project_number"?: number[];
         /** @format int32 */
-        filterProjectType?: number;
+        "filter.project_type"?: number;
         /** @format int32 */
-        filterProjectState?: number;
+        "filter.project_state"?: number;
         /** @format int32 */
-        filterCustomerNumber?: number;
+        "filter.customer_number"?: number;
         /** @format int32 */
-        filterInvoicingCustomerId?: number;
+        "filter.invoicing_customer_id"?: number;
         /** @format date-time */
-        filterCreatedBefore?: string;
+        "filter.created_before"?: string;
         /** @format date-time */
-        filterCreatedAfter?: string;
+        "filter.created_after"?: string;
         /** @format date-time */
-        filterUpdatedBefore?: string;
+        "filter.updated_before"?: string;
         /** @format date-time */
-        filterUpdatedAfter?: string;
-        filterStates?: number[];
+        "filter.updated_after"?: string;
+        "filter.states"?: number[];
         /** @format int32 */
-        filterContactPersonnumber?: number;
-        filterShowModels?: boolean;
-        filterObjectIds?: number[];
+        "filter.contact_personnumber"?: number;
+        "filter.show_models"?: boolean;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -11368,32 +11367,32 @@ Returns result = true if report OK, false otherwise
     purchaseInvoiceList: (
       query?: {
         /** @format int32 */
-        filterInvoiceType?: number;
+        "filter.invoice_type"?: number;
         /** @format int32 */
-        filterInvoiceState?: number;
+        "filter.invoice_state"?: number;
         /** @format int32 */
-        filterCustomerNumber?: number;
-        filterDescription?: string;
+        "filter.customer_number"?: number;
+        "filter.description"?: string;
         /** @format date-time */
-        filterCreatedBefore?: string;
+        "filter.created_before"?: string;
         /** @format date-time */
-        filterCreatedAfter?: string;
+        "filter.created_after"?: string;
         /** @format date-time */
-        filterUpdatedBefore?: string;
+        "filter.updated_before"?: string;
         /** @format date-time */
-        filterUpdatedAfter?: string;
-        filterObjectIds?: number[];
+        "filter.updated_after"?: string;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -11703,35 +11702,35 @@ Returns result = true if report OK, false otherwise
     purchaseOrderList: (
       query?: {
         /** @format int32 */
-        filterState?: number;
+        "filter.state"?: number;
         /** @format int32 */
-        filterCustomerNumber?: number;
+        "filter.customer_number"?: number;
         /** @format int32 */
-        filterType?: number;
+        "filter.type"?: number;
         /** @format date-time */
-        filterOrderedBefore?: string;
+        "filter.ordered_before"?: string;
         /** @format date-time */
-        filterOrderedAfter?: string;
-        filterOrderNumbers?: number[];
+        "filter.ordered_after"?: string;
+        "filter.order_numbers"?: number[];
         /** @format date-time */
-        filterUpdatedBefore?: string;
+        "filter.updated_before"?: string;
         /** @format date-time */
-        filterUpdatedAfter?: string;
-        filterOnlyAllowedTypes?: boolean;
-        filterSkipModels?: boolean;
-        filterSortDesc?: boolean;
-        filterObjectIds?: number[];
+        "filter.updated_after"?: string;
+        "filter.only_allowed_types"?: boolean;
+        "filter.skip_models"?: boolean;
+        "filter.sort_desc"?: boolean;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -12024,21 +12023,21 @@ Returns result = true if report OK, false otherwise
          * Person number filter
          * @format int32
          */
-        filterPersonNumber?: number;
+        "filter.person_number"?: number;
         /** Only approved salaries */
-        filterOnlyApproved?: boolean;
-        filterObjectIds?: number[];
+        "filter.only_approved"?: boolean;
+        "filter.object_ids"?: number[];
         /**
          * Page number. If not provided, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * Page size. If not provided, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
-        filterSearch?: string;
+        "filter.page_size"?: number;
+        "filter.search"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -12065,12 +12064,12 @@ Returns result = true if report OK, false otherwise
          * Henkilönumero
          * @format int32
          */
-        filterPersonNumber?: number;
+        "filter.person_number"?: number;
         /**
          * Ennen pvm
          * @format date-time
          */
-        filterBefore?: string;
+        "filter.before"?: string;
       },
       params: RequestParams = {},
     ) =>
@@ -12168,13 +12167,13 @@ Returns result = true if report OK, false otherwise
     settingsGetCostCenters: (
       query?: {
         /** @format int32 */
-        filterLevel?: number;
-        filterSearch?: string;
-        filterAlsoPassives?: boolean;
+        "filter.level"?: number;
+        "filter.search"?: string;
+        "filter.also_passives"?: boolean;
         /** @format int32 */
-        filterPage?: number;
+        "filter.page"?: number;
         /** @format int32 */
-        filterPageSize?: number;
+        "filter.page_size"?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -12201,12 +12200,12 @@ Returns result = true if report OK, false otherwise
          * If not defined, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * If not defined, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
+        "filter.page_size"?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -12233,12 +12232,12 @@ Returns result = true if report OK, false otherwise
          * Form of salary number
          * @format int32
          */
-        filterFormofsalary?: number;
+        "filter.formofsalary"?: number;
         /**
          * Person number
          * @format int32
          */
-        filterPerson?: number;
+        "filter.person"?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -12261,17 +12260,17 @@ Returns result = true if report OK, false otherwise
      */
     settingsGetLtas: (
       query?: {
-        filterAlsoPassives?: boolean;
+        "filter.also_passives"?: boolean;
         /**
          * If not defined, using default value of 1
          * @format int32
          */
-        filterPage?: number;
+        "filter.page"?: number;
         /**
          * If not defined, using default value of 10
          * @format int32
          */
-        filterPageSize?: number;
+        "filter.page_size"?: number;
       },
       params: RequestParams = {},
     ) =>
@@ -12867,9 +12866,9 @@ Returns result = true if report OK, false otherwise
     stockStocks: (
       query?: {
         /** @format date-time */
-        filterModifiedBefore?: string;
+        "filter.modified_before"?: string;
         /** @format date-time */
-        filterModifiedAfter?: string;
+        "filter.modified_after"?: string;
       },
       params: RequestParams = {},
     ) =>
