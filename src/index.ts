@@ -133,10 +133,10 @@ export class LemonsoftApiClient {
 
       this.sessionId = (response.data as { session_id: string }).session_id;
 
-      // Reset the session id after 1 hour (not sure how long the session id is valid)
+      // Reset the session id after 1 hour (session id is valid for 30 minutes)
       setTimeout(() => {
         this.sessionId = undefined;
-      }, 60 * 60 * 1000);
+      }, 20 * 60 * 1000);
     }
 
     axiosRequestConfig.headers = {
