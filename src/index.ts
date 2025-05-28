@@ -112,9 +112,26 @@ export class LemonsoftApiClient {
   private installErrorHandler() {
     this.api.instance.interceptors.response.use(
       (response) => response,
-      (error) => {
-        error.message =
-          `Lemonsoft HTTP error ${error.response.status} (${error.response.statusText}): ` + JSON.stringify(error.response.data);
+      async (error) => {
+        const originalRequest = error.config;
+        // Only retry once to avoid infinite loops
+        if (error.response && error.response.status === 401 && !originalRequest._retry) {
+          originalRequest._retry = true;
+          this.sessionId = undefined; // Clear session to force re-login
+          // Re-authenticate (get new sessionId)
+          await this.securityWorker(this);
+          // Set new sessionId header
+          originalRequest.headers['Session-Id'] = this.sessionId;
+          // Retry the original request
+          return this.api.instance.request(originalRequest);
+        }
+        // Default error handling
+        if (error.response) {
+          error.message =
+            `Lemonsoft HTTP error ${error.response.status} (${error.response.statusText}): ` + JSON.stringify(error.response.data);
+        } else {
+          error.message = `Lemonsoft HTTP error: No response received. Original error: ${error.message}`;
+        }
         throw error;
       }
     );
@@ -133,7 +150,7 @@ export class LemonsoftApiClient {
 
       this.sessionId = (response.data as { session_id: string }).session_id;
 
-      // Reset the session id after 1 hour (session id is valid for 30 minutes)
+      // Reset the session id after 20 minutes (session id is valid for 30 minutes)
       setTimeout(() => {
         this.sessionId = undefined;
       }, 20 * 60 * 1000);
